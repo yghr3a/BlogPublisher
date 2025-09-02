@@ -62,5 +62,12 @@ namespace BlogPublisher
             var result = await publish.PublishPostAsync("测试文章发布", "这是一篇测试用文章哦~");
             MessageBox.Show(result);
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            var cnblog = new CNBlogPublisher();
+
+            cnblog.testPublishBlog();
+        }
     }
 }

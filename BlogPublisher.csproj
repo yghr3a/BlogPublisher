@@ -119,6 +119,7 @@
     <Compile Include="Model\WordPressPublishConfig.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\CNBlogPublisher.cs" />
     <Compile Include="Service\PublishConfigService.cs" />
     <Compile Include="Service\WordPressPublisher.cs" />
     <EmbeddedResource Include="AddPublishConfigForm.resx">

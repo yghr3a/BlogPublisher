@@ -8,5 +8,6 @@ namespace BlogPublisher.Model
 {
     internal class GitHUbPublishConfig
     {
+
     }
 }
