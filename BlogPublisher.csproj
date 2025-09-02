@@ -92,7 +92,8 @@
     <Compile Include="AddPublishConfigForm.Designer.cs">
       <DependentUpon>AddPublishConfigForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Common\PublishConfigRegistry.cs" />
+    <Compile Include="Common\PublishConfigPathHelper.cs" />
+    <Compile Include="Common\PublishConfigTypeHelper.cs" />
     <Compile Include="CustomException\CustomExecptions.cs" />
     <Compile Include="DebugForm.cs">
       <SubType>Form</SubType>
@@ -111,6 +112,8 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Model\CNBlogPublishConfig.cs" />
+    <Compile Include="Model\GitHUbPublishConfig.cs" />
     <Compile Include="Model\IPublishConfig.cs" />
     <Compile Include="Model\Post.cs" />
     <Compile Include="Model\WordPressPublishConfig.cs" />

@@ -98,7 +98,14 @@ namespace BlogPublisher.Helper
             }
         }
 
-        // 
+        /// <summary>
+        /// 文件名拼接
+        /// </summary>
+        /// <param name="dir"></param>
+        /// <param name="name"></param>
+        /// <param name="exName"></param>
+        /// <returns></returns>
+        /// <exception cref="FileHelperException"></exception>
         public static string ContactFileName(string dir, string name, string exName)
         {
             if(string.IsNullOrWhiteSpace(dir))
@@ -123,6 +130,52 @@ namespace BlogPublisher.Helper
             catch (Exception ex)
             {
                 throw new FileHelperException ( "拼接文件名失败", ex );
+            }
+        }
+
+        /// <summary>
+        /// 判断文件是否存在
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        /// <exception cref="FileHelperException"></exception>
+        public static bool IsFileExist(string path)
+        {
+            if (String.IsNullOrWhiteSpace(path))
+                throw new FileHelperException("判断文件是否存在失败", new ArgumentNullException("文件路径为空!"));
+
+            return File.Exists(path);
+        }
+
+        /// <summary>
+        /// 判断文件夹是否存在
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        /// <exception cref="FileHelperException"></exception>
+        public static bool IsFolderExist(string path)
+        {
+            if (String.IsNullOrWhiteSpace(path))
+                throw new FileHelperException("判断文件夹是否存在失败", new ArgumentNullException("文件夹路径为空!"));
+            return Directory.Exists(path);
+        }
+
+        /// <summary>
+        /// 创建文件夹(路径)
+        /// </summary>
+        /// <param name="path"></param>
+        /// <exception cref="FileHelperException"></exception>
+        public static void CreateFolder(string path)
+        {
+            if (String.IsNullOrWhiteSpace(path))
+                throw new FileHelperException("创建文件夹失败", new ArgumentNullException("文件夹路径为空!"));
+            try
+            {
+                Directory.CreateDirectory(path);
+            }
+            catch (Exception ex)
+            {
+                throw new FileHelperException("创建文件夹失败", ex);
             }
         }
     }
