@@ -22,6 +22,7 @@ namespace BlogPublisher.Service
             var authBytes = Encoding.UTF8.GetBytes($"{username}:{appPassword}");
             _authHeader = Convert.ToBase64String(authBytes);
         }
+
         public async Task<string> PublishPostAsync(string title, string content, bool isDraft = false)
         {
             try

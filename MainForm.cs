@@ -26,6 +26,7 @@ namespace BlogPublisher
         {
             LoadPublishConfig();
         }
+
         private void ConfirmPublishButton_Click(object sender, EventArgs e)
         {
             var checkedItems = PublishConfigCheckedListBox.CheckedItems;
@@ -35,7 +36,6 @@ namespace BlogPublisher
             {
                 names.Add(item);
             }
-
 
         }
 

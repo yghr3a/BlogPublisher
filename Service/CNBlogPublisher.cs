@@ -17,6 +17,12 @@ namespace BlogPublisher.Service
         string password = "<填写你的密钥>";
         string path = "";
 
+
+        public CNBlogPublisher() 
+        {
+
+        }
+
         public void testPublishBlog()
         {
             var post = new Post()

@@ -81,7 +81,18 @@ namespace BlogPublisher
 
                 _publishConfig.Add<WordPressPublishConfig>(config);
             }
-            else
+            else if(selected == "博客园发布配置")
+            {
+                var config = new CNBlogPublishConfig();
+
+                config.ConfigName = PublishConfigNameTextBox.Text;
+                config.Url = BKUrlTextBox.Text;
+                config.UserName = BKUserNameTextBox.Text;
+                config.Password = BKPasswordTextBox.Text;
+
+                _publishConfig.Add<CNBlogPublishConfig>(config);
+            }
+            else 
             {
                 MessageBox.Show("未实装!");
             }
