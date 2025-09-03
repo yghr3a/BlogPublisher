@@ -53,16 +53,29 @@ namespace BlogPublisher.Service
         }
 
         /// <summary>
-        /// 
+        /// 加载所有配置文件的类型和名字, 用于界面显示
         /// </summary>
         /// <returns></returns>
-        public List<string> LoadName()
+        public List<PublishConfigTypeAndName> LoadPublishConfigTypeAndName()
         {
-            var res = new List<string>();
-            foreach (var item in _type2path.Values)
+            var res = new List<PublishConfigTypeAndName>();
+
+            foreach(var typeAndPath in _type2path)
             {
-                var names = FileHelper.GetFileNamesInDir(item);
-                res.AddRange(names);
+                var type = typeAndPath.Key;
+                var path = typeAndPath.Value;
+
+                var files = FileHelper.GetFileNamesInDir(path);
+
+                foreach (var file in files)
+                {
+                    var item = new PublishConfigTypeAndName()
+                    {
+                        PublishConfigType = type,
+                        PublishConfigName = file
+                    };
+                    res.Add(item);
+                }
             }
 
             return res;

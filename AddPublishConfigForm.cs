@@ -106,9 +106,7 @@ namespace BlogPublisher
         private void button1_Click(object sender, EventArgs e)
         {
             // var name = "";
-            var config = _publishConfig.Load<WordPressPublishConfig>("测试Json格式化与编码");
 
-            MessageBox.Show($"配置名:{config.ConfigName}\r\nUrl:{config.Url}\r\n用户名:{config.UserName}\r\n密码:{config.Password}");
         }
     }
 }

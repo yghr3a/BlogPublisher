@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Linq;
+using BlogPublisher.Model;
 
 namespace BlogPublisher
 {
@@ -30,24 +30,24 @@ namespace BlogPublisher
         private void ConfirmPublishButton_Click(object sender, EventArgs e)
         {
             var checkedItems = PublishConfigCheckedListBox.CheckedItems;
-            var names = new List<string>();
+            var selectedConfigs = new List<PublishConfigTypeAndName>();
 
-            foreach (string item in checkedItems)
+            foreach (PublishConfigTypeAndName item in checkedItems)
             {
-                names.Add(item);
+                selectedConfigs.Add(item);
             }
-
         }
 
         private void LoadPublishConfig()
         {
             PublishConfigCheckedListBox.Items.Clear();
-            var names = _config.LoadName();
+            var _configsTypeAndName = _config.LoadPublishConfigTypeAndName();
 
-            foreach( var name in names )
+            foreach( var item in _configsTypeAndName)
             {
-                PublishConfigCheckedListBox.Items.Add( name, false);
+                PublishConfigCheckedListBox.Items.Add(item, false);
             }
+
         }
 
         private void AddPublishConfig(object sender, EventArgs e)

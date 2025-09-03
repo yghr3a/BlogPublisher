@@ -116,9 +116,11 @@
     <Compile Include="Model\GitHUbPublishConfig.cs" />
     <Compile Include="Model\IPublishConfig.cs" />
     <Compile Include="Model\Post.cs" />
+    <Compile Include="Model\PublishConfigTypeAndName.cs" />
     <Compile Include="Model\WordPressPublishConfig.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\BlogPublishService.cs" />
     <Compile Include="Service\CNBlogPublisher.cs" />
     <Compile Include="Service\PublishConfigService.cs" />
     <Compile Include="Service\WordPressPublisher.cs" />

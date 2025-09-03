@@ -32,6 +32,12 @@ namespace BlogPublisher.Helper
             return GetFileContent(fileName);
         }
 
+        /// <summary>
+        /// 获取某一目录下的所有文件的名字(不含扩展名)
+        /// </summary>
+        /// <param name="dir"></param>
+        /// <returns></returns>
+        /// <exception cref="FileHelperException"></exception>
         public static List<string> GetFileNamesInDir(string dir)
         {
             if (String.IsNullOrWhiteSpace(dir))
