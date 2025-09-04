@@ -73,22 +73,25 @@ namespace BlogPublisher
             var selected = PublishConfigTypeComboBox.SelectedItem.ToString();
             if (selected == "WordPress发布配置")
             {
-                var config = new WordPressPublishConfig();
-                config.ConfigName = PublishConfigNameTextBox.Text;
-                config.Url = WPUrlTextBox.Text;
-                config.UserName = WPUserNameTextBox.Text;
-                config.Password = WPPasswordTextBox.Text;
+                var config = new WordPressPublishConfig
+                {
+                    ConfigName = PublishConfigNameTextBox.Text,
+                    Url = WPUrlTextBox.Text,
+                    UserName = WPUserNameTextBox.Text,
+                    Password = WPPasswordTextBox.Text
+                };
 
                 _publishConfig.Add<WordPressPublishConfig>(config);
             }
             else if(selected == "博客园发布配置")
             {
-                var config = new CNBlogPublishConfig();
-
-                config.ConfigName = PublishConfigNameTextBox.Text;
-                config.Url = BKUrlTextBox.Text;
-                config.UserName = BKUserNameTextBox.Text;
-                config.Password = BKPasswordTextBox.Text;
+                var config = new CNBlogPublishConfig
+                {
+                    ConfigName = PublishConfigNameTextBox.Text,
+                    Url = BKUrlTextBox.Text,
+                    UserName = BKUserNameTextBox.Text,
+                    Password = BKPasswordTextBox.Text
+                };
 
                 _publishConfig.Add<CNBlogPublishConfig>(config);
             }

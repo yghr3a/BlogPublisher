@@ -38,7 +38,7 @@ namespace BlogPublisher.Helper
         /// <param name="dir"></param>
         /// <returns></returns>
         /// <exception cref="FileHelperException"></exception>
-        public static List<string> GetFileNamesInDir(string dir)
+        public static List<string> GetFileNamesWithoutExtensions(string dir)
         {
             if (String.IsNullOrWhiteSpace(dir))
                 throw new FileHelperException("获取某一目录下的所有文件的名字失败!", new ArgumentNullException("文件路径为空!"));
@@ -62,7 +62,7 @@ namespace BlogPublisher.Helper
 
         }
 
-        public static string GetFileName(string path)
+        public static string GetFileNameWithoutExtension(string path)
         {
             if (String.IsNullOrWhiteSpace(path)) 
                 throw new FileHelperException("文件路径为空!");

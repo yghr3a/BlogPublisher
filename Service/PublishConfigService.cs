@@ -47,7 +47,8 @@ namespace BlogPublisher.Service
         /// <returns></returns>
         public T Load<T>(string name) where T : class, IPublishConfig, new()
         {
-            var content = FileHelper.GetFileContent(_path, name, ".txt");
+            var type = typeof(T);
+            var content = FileHelper.GetFileContent(_type2path[type], name, ".txt");
             var config = JsonHelper.Deserialize<T>(content);
             return config;
         }
@@ -65,7 +66,7 @@ namespace BlogPublisher.Service
                 var type = typeAndPath.Key;
                 var path = typeAndPath.Value;
 
-                var files = FileHelper.GetFileNamesInDir(path);
+                var files = FileHelper.GetFileNamesWithoutExtensions(path);
 
                 foreach (var file in files)
                 {

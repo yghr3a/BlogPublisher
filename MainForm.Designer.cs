@@ -44,7 +44,7 @@
             this.BlogInfoGroupBox = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.FilePathTextBox = new System.Windows.Forms.TextBox();
-            this.BlogTittleTextBox = new System.Windows.Forms.TextBox();
+            this.BlogTitleTextBox = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
@@ -227,7 +227,7 @@
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.Controls.Add(this.FilePathTextBox, 1, 0);
-            this.tableLayoutPanel2.Controls.Add(this.BlogTittleTextBox, 1, 1);
+            this.tableLayoutPanel2.Controls.Add(this.BlogTitleTextBox, 1, 1);
             this.tableLayoutPanel2.Controls.Add(this.label3, 0, 1);
             this.tableLayoutPanel2.Controls.Add(this.label1, 0, 0);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -247,13 +247,13 @@
             this.FilePathTextBox.Size = new System.Drawing.Size(501, 25);
             this.FilePathTextBox.TabIndex = 5;
             // 
-            // BlogTittleTextBox
+            // BlogTitleTextBox
             // 
-            this.BlogTittleTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.BlogTittleTextBox.Location = new System.Drawing.Point(83, 38);
-            this.BlogTittleTextBox.Name = "BlogTittleTextBox";
-            this.BlogTittleTextBox.Size = new System.Drawing.Size(501, 25);
-            this.BlogTittleTextBox.TabIndex = 4;
+            this.BlogTitleTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.BlogTitleTextBox.Location = new System.Drawing.Point(83, 38);
+            this.BlogTitleTextBox.Name = "BlogTitleTextBox";
+            this.BlogTitleTextBox.Size = new System.Drawing.Size(501, 25);
+            this.BlogTitleTextBox.TabIndex = 4;
             // 
             // label3
             // 
@@ -311,7 +311,7 @@
         private System.Windows.Forms.GroupBox BlogInfoGroupBox;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.TextBox FilePathTextBox;
-        private System.Windows.Forms.TextBox BlogTittleTextBox;
+        private System.Windows.Forms.TextBox BlogTitleTextBox;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.GroupBox groupBox1;

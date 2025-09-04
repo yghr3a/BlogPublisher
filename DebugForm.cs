@@ -34,7 +34,7 @@ namespace BlogPublisher
         {
             string path = FilePathTextBox.Text;
 
-            string name = FileHelper.GetFileName(path);
+            string name = FileHelper.GetFileNameWithoutExtension(path);
 
             MessageBox.Show(name);
         }
@@ -58,9 +58,7 @@ namespace BlogPublisher
             //var blog = new BlogPublish();
             //blog.PublishBlog();
 
-            var publish = new WordPressPublisher(urlTextBox.Text, usernameTextBox.Text, passwordTextBox.Text);
-            var result = await publish.PublishPostAsync("测试文章发布", "这是一篇测试用文章哦~");
-            MessageBox.Show(result);
+
         }
 
         private void button1_Click(object sender, EventArgs e)

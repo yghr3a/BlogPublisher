@@ -15,6 +15,7 @@ namespace BlogPublisher
     public partial class MainForm : Form
     {
         private PublishConfigService _config = new PublishConfigService();
+        private BlogPublishService _blogPublishService = new BlogPublishService();
 
         public MainForm()
         {
@@ -27,7 +28,7 @@ namespace BlogPublisher
             LoadPublishConfig();
         }
 
-        private void ConfirmPublishButton_Click(object sender, EventArgs e)
+        private async void ConfirmPublishButton_Click(object sender, EventArgs e)
         {
             var checkedItems = PublishConfigCheckedListBox.CheckedItems;
             var selectedConfigs = new List<PublishConfigTypeAndName>();
@@ -36,6 +37,10 @@ namespace BlogPublisher
             {
                 selectedConfigs.Add(item);
             }
+
+            _blogPublishService.LoadConfigAndBlog(selectedConfigs, FilePathTextBox.Text, BlogTitleTextBox.Text);
+            var result = await _blogPublishService.PublishBlog();
+            MessageBox.Show(result);
         }
 
         private void LoadPublishConfig()
