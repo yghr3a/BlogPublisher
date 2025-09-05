@@ -11,6 +11,12 @@ namespace BlogPublisher.Helper
 {
     public static class FileHelper
     {
+        /// <summary>
+        /// 获取文件内容
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        /// <exception cref="FileHelperException"></exception>
         public static string GetFileContent(string path)
         {
             if(String.IsNullOrWhiteSpace(path)) 
@@ -62,6 +68,12 @@ namespace BlogPublisher.Helper
 
         }
 
+        /// <summary>
+        /// 获取文件名(不含扩展名)
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        /// <exception cref="FileHelperException"></exception>
         public static string GetFileNameWithoutExtension(string path)
         {
             if (String.IsNullOrWhiteSpace(path)) 
@@ -81,6 +93,12 @@ namespace BlogPublisher.Helper
             }
         }
 
+        /// <summary>
+        /// 写入文件
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="content"></param>
+        /// <exception cref="FileHelperException"></exception>
         public static void WriteInto(string path, string content)
         {
             if (String.IsNullOrWhiteSpace(path))
@@ -89,7 +107,14 @@ namespace BlogPublisher.Helper
             File.WriteAllText(path, content);
         }
 
-        // 在"dir"目录下创建名字为"name",后缀为"exName"的文件
+        /// <summary>
+        /// 在"dir"目录下创建名字为"name",后缀为"exName"的文件
+        /// </summary>
+        /// <param name="dir"></param>
+        /// <param name="name"></param>
+        /// <param name="exName"></param>
+        /// <returns></returns>
+        /// <exception cref="FileHelperException"></exception>
         public static string CreateFile(string dir, string name, string exName)
         {
             var fileName = ContactFileName(dir, name, exName);

@@ -14,7 +14,6 @@ namespace BlogPublisher.Service
     /// </summary>
     public class BlogPublishService
     {
-
         private PublishConfigService _publishConfigService = new PublishConfigService();
         private List<PublishConfigTypeAndName> _selectedconfigs = new List<PublishConfigTypeAndName>();
 
@@ -53,37 +52,43 @@ namespace BlogPublisher.Service
         /// </summary>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public async Task<string> PublishBlog()
+        public async Task PublishBlog()
         {
-            string res = "";
+            var res = new List<string>();
 
             if(_selectedconfigs == null || _selectedconfigs.Count == 0)
-                return "没有选择发布配置";
+                res.Add("没有选择发布配置");
+                
 
             if (string.IsNullOrWhiteSpace(_blogInfo.blogContent))
-                return "博客内容为空";
+                res.Add("博客内容为空");
+
+            // 如果res以及有元素了, 说明出问题了, 发个"PublishBlogError"事件就return了
+            if (res.Count > 0)
+            {
+                EventBus.PublishEvent("PublishBlogError", res);
+                return;
+            }
+                
 
             foreach (var configs in _selectedconfigs)
             {
                 if (configs.PublishConfigType == PublishConfigTypeHelper.wordPressPublishConfigType)
                 {
-                    res += await WordPressPublish(configs.PublishConfigName);
+                    res.Add(await WordPressPublish(configs.PublishConfigName));
                 }
                 else if (configs.PublishConfigType == PublishConfigTypeHelper.cnBlogPublishConfigType)
                 {
-                    res += await CNBlogPublish();
+                    res.Add(await CNBlogPublish());
                 }
                 else
                 {
                     throw new Exception("不支持的发布类型");
                 }
-
-                res += '\n';
             }
 
-            
-
-            return res;
+            // 能到这一步说明发布博客很顺利, 发个"PublishBlogOK"事件报告一下
+            EventBus.PublishEvent("PublishBlogOK", res);
         }
 
         private async Task<string> WordPressPublish(string publishConfigName)

@@ -26,7 +26,7 @@ namespace BlogPublisher.Service
             _blogInfo = blogInfo;
         }
 
-        // 发布
+        // 发布博客
         public async Task<string> PublishPostAsync(WordPressPublishConfig config)
         {
             try
