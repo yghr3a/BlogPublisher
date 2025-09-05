@@ -101,7 +101,7 @@ namespace BlogPublisher
                 string messge = "";
                 foreach (var m in messges)
                     messge += m;
-                MessageBox.Show(Text = messge, "发布成功", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(messge, "发布成功", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
                 throw new Exception("OnPublishBlogOK事件参数错误");
@@ -118,7 +118,7 @@ namespace BlogPublisher
                 string messge = "";
                 foreach (var m in messges)
                     messge += m;
-                MessageBox.Show(Text = messge, "发布失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(messge, "发布失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
                 throw new Exception("OnPublishBlogError事件参数错误");

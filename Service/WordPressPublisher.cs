@@ -8,6 +8,10 @@ using System.Threading.Tasks;
 
 namespace BlogPublisher.Service
 {
+    /// <summary>
+    /// WordPress 博客发布服务, 使用 WordPress REST API
+    /// 在后面会考虑将C# HttpClient相关的底层操作交给一个单独的Helper类来处理
+    /// </summary>
     public class WordPressPublisher
     {
         private readonly HttpClient _client = new HttpClient();
@@ -29,24 +33,31 @@ namespace BlogPublisher.Service
         // 发布博客
         public async Task<string> PublishPostAsync(WordPressPublishConfig config)
         {
+            var siteUrl = config.Url;
+            var username = config.UserName;
+            var appPassword = config.Password;
+            var _apiBaseUrl = siteUrl;
+
+            var postData = new
+            {
+                title,
+                content,
+                status = isDraft ? "draft" : "publish"
+            };
+
+            if (string.IsNullOrWhiteSpace(username))
+                return $"[{config.ConfigName}]:发布失败！配置用户名为空!";
+
+            if(string.IsNullOrWhiteSpace(appPassword))
+                return $"[{config.ConfigName}]:发布失败！配置密码为空!";
+
+            // 生成 Basic Auth 头
+            var authBytes = Encoding.UTF8.GetBytes($"{username}:{appPassword}");
+            var _authHeader = Convert.ToBase64String(authBytes);
+
+
             try
             {
-                var siteUrl = config.Url;
-                var username = config.UserName;
-                var appPassword = config.Password;
-                var _apiBaseUrl = siteUrl;
-
-                // 生成 Basic Auth 头
-                var authBytes = Encoding.UTF8.GetBytes($"{username}:{appPassword}");
-                var _authHeader = Convert.ToBase64String(authBytes);
-
-                var postData = new
-                {
-                    title,
-                    content,
-                    status = isDraft ? "draft" : "publish"
-                };
-
                 var request = new HttpRequestMessage(HttpMethod.Post, $"{_apiBaseUrl}/wp-json/wp/v2/posts");
                 request.Headers.Authorization = new AuthenticationHeaderValue("Basic", _authHeader);
                 request.Content = new StringContent(JsonSerializer.Serialize(postData), Encoding.UTF8, "application/json");
@@ -57,8 +68,9 @@ namespace BlogPublisher.Service
                 var responseJson = await response.Content.ReadAsStringAsync();
                 using (var doc = JsonDocument.Parse(responseJson))
                 {
-                    return $"发布成功！文章ID: {doc.RootElement.GetProperty("id")}";
+                    return $"[{config.ConfigName}]发布成功！文章ID: {doc.RootElement.GetProperty("id")}";
                 }
+
             }
             catch (Exception ex)
             {

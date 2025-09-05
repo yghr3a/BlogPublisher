@@ -12,7 +12,7 @@ namespace BlogPublisher.Service
     public class EventBus
     {
         // 事件名与事件处理方法的"花名册"
-        private static readonly Dictionary<string, Action<object>> _eventAndHandler = new Dictionary<string, Action<object>>();
+        private static readonly Dictionary<string, List<Action<object>>> _eventAndHandler = new Dictionary<string, List<Action<object>>>();
 
         public static void SubscribeEvent(string eventName, Action<object> action)
         {
@@ -20,7 +20,7 @@ namespace BlogPublisher.Service
             if (_eventAndHandler.ContainsKey(eventName))
                 throw new Exception("该事件已被订阅");
 
-            _eventAndHandler[eventName] = action;
+            _eventAndHandler[eventName].Add(action);
         }
 
         public static void PublishEvent(string eventName, object arg)
@@ -28,9 +28,7 @@ namespace BlogPublisher.Service
             if (_eventAndHandler.ContainsKey(eventName))
             {
                 // 选择所有订阅了该事件的处理方法
-                var _goalEventHandlers = from nameAndHandler in _eventAndHandler
-                                         where nameAndHandler.Key == eventName
-                                         select nameAndHandler.Value;
+                var _goalEventHandlers = _eventAndHandler[eventName];
 
                 foreach (var handler in _goalEventHandlers)
                 {
