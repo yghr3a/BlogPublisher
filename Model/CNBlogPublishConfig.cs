@@ -13,7 +13,6 @@ namespace BlogPublisher.Model
         public string ConfigName { get; set; }
         [JsonPropertyName("config_type")]
         public string PublishConfigType { get; set; }
-
         [JsonPropertyName("url")]
         public string Url { get; set; }
         [JsonPropertyName("username")]

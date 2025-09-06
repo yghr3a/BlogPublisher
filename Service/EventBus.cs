@@ -16,9 +16,9 @@ namespace BlogPublisher.Service
 
         public static void SubscribeEvent(string eventName, Action<object> action)
         {
-            // 后面会针对性地搞一些客制化异常在这里的
-            if (_eventAndHandler.ContainsKey(eventName))
-                throw new Exception("该事件已被订阅");
+            // 如果还没有该事件的订阅列表, 则创建一个新的
+            if (_eventAndHandler.ContainsKey(eventName) == false)
+                _eventAndHandler.Add(eventName, new List<Action<object>>());
 
             _eventAndHandler[eventName].Add(action);
         }

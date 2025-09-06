@@ -119,7 +119,7 @@
             this.tableLayoutPanel6.Name = "tableLayoutPanel6";
             this.tableLayoutPanel6.RowCount = 1;
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 48F));
+            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 49F));
             this.tableLayoutPanel6.Size = new System.Drawing.Size(497, 49);
             this.tableLayoutPanel6.TabIndex = 0;
             // 
@@ -135,10 +135,9 @@
             this.tableLayoutPanel7.Name = "tableLayoutPanel7";
             this.tableLayoutPanel7.RowCount = 1;
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 42F));
+            this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 43F));
             this.tableLayoutPanel7.Size = new System.Drawing.Size(242, 43);
             this.tableLayoutPanel7.TabIndex = 0;
-            this.tableLayoutPanel7.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel7_Paint);
             // 
             // ClearButton
             // 
@@ -185,7 +184,6 @@
             this.ConfigInfoGroupBox.TabIndex = 0;
             this.ConfigInfoGroupBox.TabStop = false;
             this.ConfigInfoGroupBox.Text = "基本配置信息";
-            this.ConfigInfoGroupBox.Enter += new System.EventHandler(this.ConfigInfoGroupBox_Enter);
             // 
             // tableLayoutPanel2
             // 
@@ -401,7 +399,6 @@
             this.WordPressGroupBox.TabStop = false;
             this.WordPressGroupBox.Text = "WordPress站点发布许可相关配置";
             this.WordPressGroupBox.Visible = false;
-            this.WordPressGroupBox.Enter += new System.EventHandler(this.WordPressGroupBox_Enter_1);
             // 
             // tableLayoutPanel4
             // 
@@ -493,7 +490,6 @@
             this.MinimumSize = new System.Drawing.Size(527, 443);
             this.Name = "AddPublishConfigForm";
             this.Text = "添加发布配置";
-            this.Load += new System.EventHandler(this.添加发布配置信息_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.OperateGroupBox.ResumeLayout(false);
             this.tableLayoutPanel6.ResumeLayout(false);

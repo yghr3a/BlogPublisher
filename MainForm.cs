@@ -77,6 +77,8 @@ namespace BlogPublisher
             // 订阅发布博客成功与失败事件
             EventBus.SubscribeEvent("PublishBlogOK", OnPublishBlogOK);
             EventBus.SubscribeEvent("PublishBlogError", OnPublishBlogError);
+            // 订阅成功添加发布配置事件
+            EventBus.SubscribeEvent("AddPublishConfigOK", OnAddPublishConfigOK);
         }
 
         /// <summary>
@@ -122,6 +124,16 @@ namespace BlogPublisher
             }
             else
                 throw new Exception("OnPublishBlogError事件参数错误");
+        }
+
+        /// <summary>
+        /// 当发布配置添加成功时, 主窗口这里也需要重新加载配置框得内容
+        /// </summary>
+        /// <param name="obj"></param>
+        private void OnAddPublishConfigOK(object obj)
+        {
+            // 直接调用自带的发布配置加载方法就OK了
+            LoadPublishConfig();
         }
     }
 }

@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.InteropServices;
 using System.IO;
+using BlogPublisher.CustomException;
 
 namespace BlogPublisher.Service
 {
@@ -27,16 +28,29 @@ namespace BlogPublisher.Service
         /// <param name="config"></param>
         public void Add<T>(T config) where T : class, IPublishConfig, new()
         {
-            var configInfo = JsonHelper.Serialize(config);
-            var configType = typeof(T);
-            var path = _type2path[configType];
+            try
+            {
+                var configInfo = JsonHelper.Serialize(config);
+                var configType = typeof(T);
+                var path = _type2path[configType];
 
-            if (FileHelper.IsFolderExist(path) == false)
-                FileHelper.CreateFolder(path);
+                if (FileHelper.IsFolderExist(path) == false)
+                    FileHelper.CreateFolder(path);
 
-            var filePath = FileHelper.CreateFile(path, config.ConfigName, "txt");
+                var filePath = FileHelper.CreateFile(path, config.ConfigName, "txt");
 
-            FileHelper.WriteInto(filePath, configInfo);
+                FileHelper.WriteInto(filePath, configInfo);
+
+                EventBus.PublishEvent("AddPublishConfigOK", $"[{config.ConfigName}]:配置添加成功");
+            }
+            catch(FileHelperException ex)
+            {
+                EventBus.PublishEvent("AddPublishConfigError", ex.ToString());
+            }
+            catch(Exception ex)
+            {
+                EventBus.PublishEvent("AddPublishConfigError", ex.ToString());
+            }
         }
 
         /// <summary>

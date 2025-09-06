@@ -19,42 +19,18 @@ namespace BlogPublisher
 
         public AddPublishConfigForm()
         {
+            // 初始化配件操作
             InitializeComponent();
-        }
-
-        private void groupBox1_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void 添加发布配置信息_Load(object sender, EventArgs e)
-        {
-
+            // 初始化事件订阅
+            InitSubcribeEvent();
         }
 
 
-        private void label3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void WordPressGroupBox_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void ConfigInfoGroupBox_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-
-
-        private void label9_Click(object sender, EventArgs e)
-        {
-
-        }
-
+        /// <summary>
+        /// 发布配置组合框所选项改变时的方法, 根据选择的发布配置类型更新显示的GropBox
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void PublishConfigTypeComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             string selected = PublishConfigTypeComboBox.SelectedItem.ToString();
@@ -63,11 +39,11 @@ namespace BlogPublisher
             BlogCNGroupBox.Visible = selected == "博客园发布配置";
         }
 
-        private void WordPressGroupBox_Enter_1(object sender, EventArgs e)
-        {
-
-        }
-
+        /// <summary>
+        /// 当确认添加配置按钮被点击时
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ConfirmAddConfigButton_Click(object sender, EventArgs e)
         {
             var selected = PublishConfigTypeComboBox.SelectedItem.ToString();
@@ -101,15 +77,39 @@ namespace BlogPublisher
             }
         }
 
-        private void tableLayoutPanel7_Paint(object sender, PaintEventArgs e)
+        /// <summary>
+        /// 初始化事件订阅
+        /// </summary>
+        private void InitSubcribeEvent()
         {
-
+            EventBus.SubscribeEvent("AddPublishConfigOK", OnAddPublishConfigOK);
+            EventBus.SubscribeEvent("AddPublishConfigError", OnAddPublishConfigError);
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        /// <summary>
+        /// 发布配置添加成功事件处理方法
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <exception cref="Exception"></exception>
+        private void OnAddPublishConfigOK(object obj)
         {
-            // var name = "";
+            if (obj is string message)
+                MessageBox.Show(message, "添加发布配置成功", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            else
+                throw new Exception("[OnAddPublishConfigOK]事件方法参数类型转换失败!");
+        }
 
+        /// <summary>
+        /// 发布配置添加失败事件处理方法
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <exception cref="Exception"></exception>
+        private void OnAddPublishConfigError(object obj)
+        {
+            if (obj is string message)
+                MessageBox.Show(message, "添加发布配置失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            else
+                throw new Exception("[OnAddPublishConfigOK]事件方法参数类型转换失败!");
         }
     }
 }
