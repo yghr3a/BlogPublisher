@@ -75,10 +75,10 @@ namespace BlogPublisher
         private void InitSubcribeEvent()
         {
             // 订阅发布博客成功与失败事件
-            EventBus.SubscribeEvent("PublishBlogOK", OnPublishBlogOK);
-            EventBus.SubscribeEvent("PublishBlogError", OnPublishBlogError);
+            EventBus.SubscribeEvent<List<string>>("PublishBlogOK", OnPublishBlogOK);
+            EventBus.SubscribeEvent<List<string>>("PublishBlogError", OnPublishBlogError);
             // 订阅成功添加发布配置事件
-            EventBus.SubscribeEvent("AddPublishConfigOK", OnAddPublishConfigOK);
+            EventBus.SubscribeEvent<string>("AddPublishConfigOK", OnAddPublishConfigOK);
         }
 
         /// <summary>
@@ -96,34 +96,24 @@ namespace BlogPublisher
         /// 发布博客成功事件处理方法
         /// </summary>
         /// <param name="messges"></param>
-        private void OnPublishBlogOK(object arg)
-        {
-            if (arg is List<string> messges)
-            {            
-                string messge = "";
-                foreach (var m in messges)
-                    messge += m;
-                MessageBox.Show(messge, "发布成功", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            else
-                throw new Exception("OnPublishBlogOK事件参数错误");
+        private void OnPublishBlogOK(List<string> messges)
+        {         
+            string messge = "";
+            foreach (var m in messges)
+                messge += m + '\n';
+            MessageBox.Show(messge, "发布成功", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         /// <summary>
         /// 发布博客失败事件处理方法
         /// </summary>
         /// <param name="messges"></param>
-        private void OnPublishBlogError(object arg)
+        private void OnPublishBlogError(List<string> messges)
         {
-            if (arg is List<string> messges)
-            {
-                string messge = "";
-                foreach (var m in messges)
-                    messge += m;
-                MessageBox.Show(messge, "发布失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            else
-                throw new Exception("OnPublishBlogError事件参数错误");
+            string messge = "";
+            foreach (var m in messges)
+                messge += m;
+            MessageBox.Show(messge, "发布失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         /// <summary>

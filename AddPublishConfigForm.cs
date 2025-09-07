@@ -82,8 +82,8 @@ namespace BlogPublisher
         /// </summary>
         private void InitSubcribeEvent()
         {
-            EventBus.SubscribeEvent("AddPublishConfigOK", OnAddPublishConfigOK);
-            EventBus.SubscribeEvent("AddPublishConfigError", OnAddPublishConfigError);
+            EventBus.SubscribeEvent<string>("AddPublishConfigOK", OnAddPublishConfigOK);
+            EventBus.SubscribeEvent<string>("AddPublishConfigError", OnAddPublishConfigError);
         }
 
         /// <summary>
@@ -91,12 +91,9 @@ namespace BlogPublisher
         /// </summary>
         /// <param name="obj"></param>
         /// <exception cref="Exception"></exception>
-        private void OnAddPublishConfigOK(object obj)
+        private void OnAddPublishConfigOK(string message)
         {
-            if (obj is string message)
-                MessageBox.Show(message, "添加发布配置成功", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            else
-                throw new Exception("[OnAddPublishConfigOK]事件方法参数类型转换失败!");
+            MessageBox.Show(message, "添加发布配置成功", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         /// <summary>
@@ -104,12 +101,9 @@ namespace BlogPublisher
         /// </summary>
         /// <param name="obj"></param>
         /// <exception cref="Exception"></exception>
-        private void OnAddPublishConfigError(object obj)
+        private void OnAddPublishConfigError(string message)
         {
-            if (obj is string message)
-                MessageBox.Show(message, "添加发布配置失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            else
-                throw new Exception("[OnAddPublishConfigOK]事件方法参数类型转换失败!");
+            MessageBox.Show(message, "添加发布配置失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
 }

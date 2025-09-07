@@ -109,7 +109,7 @@
     </Compile>
     <Compile Include="Common\PublishConfigPathHelper.cs" />
     <Compile Include="Common\PublishConfigTypeHelper.cs" />
-    <Compile Include="CustomException\CustomExecptions.cs" />
+    <Compile Include="CustomException\CustomExceptions.cs" />
     <Compile Include="DebugForm.cs">
       <SubType>Form</SubType>
     </Compile>

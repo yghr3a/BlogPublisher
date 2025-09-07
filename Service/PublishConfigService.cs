@@ -41,7 +41,8 @@ namespace BlogPublisher.Service
 
                 FileHelper.WriteInto(filePath, configInfo);
 
-                EventBus.PublishEvent("AddPublishConfigOK", $"[{config.ConfigName}]:配置添加成功");
+                string mes = $"[{config.ConfigName}]:配置添加成功";
+                EventBus.PublishEvent<string>("AddPublishConfigOK", mes);
             }
             catch(FileHelperException ex)
             {
