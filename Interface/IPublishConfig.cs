@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlogPublisher.Interface
+namespace BlogPublisher.Model
 {
     public interface IPublishConfig
     {
