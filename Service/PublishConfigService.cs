@@ -42,15 +42,28 @@ namespace BlogPublisher.Service
                 FileHelper.WriteInto(filePath, configInfo);
 
                 string mes = $"[{config.ConfigName}]:配置添加成功";
-                EventBus.PublishEvent<string>("AddPublishConfigOK", mes);
+                EventBus.PublishEvent(new AddPublishConfigEvent()
+                {
+                    ConfigName = config.ConfigName,
+                    ConfigType = null, //  这个字段暂时用不上
+                    IsSuccessed = true,
+                });
             }
             catch(FileHelperException ex)
             {
-                EventBus.PublishEvent("AddPublishConfigError", ex.ToString());
+                EventBus.PublishEvent(new AddPublishConfigEvent()
+                {
+                    IsSuccessed = false,
+                    Exception = ex
+                });
             }
             catch(Exception ex)
             {
-                EventBus.PublishEvent("AddPublishConfigError", ex.ToString());
+                EventBus.PublishEvent(new AddPublishConfigEvent()
+                {
+                    IsSuccessed = false,
+                    Exception = ex
+                });
             }
         }
 

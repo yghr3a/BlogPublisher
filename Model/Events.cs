@@ -7,58 +7,50 @@ using System.Threading.Tasks;
 
 namespace BlogPublisher.Model
 {
-    public enum EventType
-    {
-        AddPublishConfigEvent,
-        PublishBlogEvent,
-        LoadPublishBlogEvent
-    }
-
     public interface IEvent
     {
-        EventType EventType { get; }
-        string IsSuccessed { get; set; }
-        Exception exception { get; set; }
+        // 事件是否成功
+        bool IsSuccessed { get; set; }
+        // 如果事件失败需要UI层读取异常信息决定处理方式
+        Exception Exception { get; set; }
     }
 
+    /// <summary>
+    /// 添加发布配置事件
+    /// </summary>
     public class AddPublishConfigEvent : IEvent
     {
-        public EventType EventType { get; }
         public string ConfigName { get; set; }
         public string ConfigType { get; set; }
-        public string IsSuccessed { get; set; }
-        public Exception exception { get; set; }
 
-        public AddPublishConfigEvent()
-        {
-            EventType = EventType.AddPublishConfigEvent;
-        }
+        public bool IsSuccessed { get; set; }
+        public Exception Exception { get; set; }
     }
 
+    /// <summary>
+    /// 发布博客事件
+    /// </summary>
     public class PublishBlogEvent : IEvent
     {
-        public EventType EventType { get; }
-        public string ConfigName { get; set; }
-        public string ConfigType { get; set; }
-        public string IsSuccessed { get; set; }
-        public Exception exception { get; set; }
+        // 一个配置文件信息(配置名与配置类型)对应一个布尔值，表示发布是否成功
+        public List<KeyValuePair<KeyValuePair<string, string>, bool>> configInfoAndIsSuccessed { get; set; }
+        // 目前使用的消息传递属性
+        public List<string> Messages { get; set; }
 
-        public PublishBlogEvent()
-        {
-            EventType = EventType.PublishBlogEvent;
-        }
+        public bool IsSuccessed { get; set; }
+        public Exception Exception { get; set; }
     }
 
-    public class LoadPublishBlogEvent : IEvent
+    /// <summary>
+    /// 加载发布配置事件
+    /// </summary>
+    public class LoadPublishConfigEvent : IEvent
     {
-        public EventType EventType { get; }
-        public List<KeyValuePair<string, ConfigType>> ConfigTypeAndName { get; set; }
-        public string IsSuccessed { get; set; }
-        public Exception exception { get; set; }
-        public LoadPublishBlogEvent()
-        {
-            EventType = EventType.LoadPublishBlogEvent;
-        }
+        public List<KeyValuePair<string, ConfigType>> ConfigNameAndType { get; set; }
+
+        public bool IsSuccessed { get; set; }
+        public Exception Exception { get; set; }
+
     }
 
 }

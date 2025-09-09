@@ -57,6 +57,8 @@ namespace BlogPublisher
 
         /// <summary>
         /// 加载发布配置内容到发布配置列表里
+        /// TODO : 这里后续可以考虑加个刷新按钮
+        /// TODO : 后续要改为事件驱动
         /// </summary>
         private void LoadPublishConfig()
         {
@@ -74,11 +76,11 @@ namespace BlogPublisher
         /// </summary>
         private void InitSubcribeEvent()
         {
-            // 订阅发布博客成功与失败事件
-            EventBus.SubscribeEvent<List<string>>("PublishBlogOK", OnPublishBlogOK);
-            EventBus.SubscribeEvent<List<string>>("PublishBlogError", OnPublishBlogError);
-            // 订阅成功添加发布配置事件
-            EventBus.SubscribeEvent<string>("AddPublishConfigOK", OnAddPublishConfigOK);
+            // 订阅发布博客事件 
+            EventBus.SubscribeEvent<PublishBlogEvent>(OnPublishBlog);
+            // 订阅添加发布配置事件
+            EventBus.SubscribeEvent<AddPublishConfigEvent>(OnAddPublishConfig);
+
         }
 
         /// <summary>
@@ -92,35 +94,42 @@ namespace BlogPublisher
             form.Show();
         }
 
-        /// <summary>
-        /// 发布博客成功事件处理方法
-        /// </summary>
-        /// <param name="messges"></param>
-        private void OnPublishBlogOK(List<string> messges)
+        private void OnPublishBlog(PublishBlogEvent _event)
         {         
-            string messge = "";
-            foreach (var m in messges)
-                messge += m + '\n';
-            MessageBox.Show(messge, "发布成功", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            if(_event.IsSuccessed == true)
+            {
+                var info = "";
+                // Tips : 注释掉的部分是后面才要实现的内容:"服务层只提供每个配置的名字、类型、是否成功、若失败的原因，之后交给UI端拼接内容"
+                //foreach(var item in _event.configInfoAndIsSuccessed)
+                //{
+                //    info += $"[{item.Key.Key}]";
+                //    if(item.Value == true)
+                //        info += "发布成功\n";
+                //    else
+                //        info += "发布失败\n";
+                //}
+                //MessageBox.Show(info, "博客发布成功", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                //  目前为了适配服务端现有的代码，先简单点
+                foreach(var msg in _event.Messages)
+                {
+                    info += $"{msg}\n";
+                }
+                MessageBox.Show(info, "博客发布成功", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                var info = $"[异常]{_event.Exception.ToString()}";
+                MessageBox.Show(info, "博客发布失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
-        /// <summary>
-        /// 发布博客失败事件处理方法
-        /// </summary>
-        /// <param name="messges"></param>
-        private void OnPublishBlogError(List<string> messges)
-        {
-            string messge = "";
-            foreach (var m in messges)
-                messge += m;
-            MessageBox.Show(messge, "发布失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        }
 
         /// <summary>
         /// 当发布配置添加成功时, 主窗口这里也需要重新加载配置框得内容
         /// </summary>
         /// <param name="obj"></param>
-        private void OnAddPublishConfigOK(object obj)
+        private void OnAddPublishConfig(AddPublishConfigEvent _event)
         {
             // 直接调用自带的发布配置加载方法就OK了
             LoadPublishConfig();

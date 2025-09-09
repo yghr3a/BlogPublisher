@@ -82,28 +82,27 @@ namespace BlogPublisher
         /// </summary>
         private void InitSubcribeEvent()
         {
-            EventBus.SubscribeEvent<string>("AddPublishConfigOK", OnAddPublishConfigOK);
-            EventBus.SubscribeEvent<string>("AddPublishConfigError", OnAddPublishConfigError);
+            EventBus.SubscribeEvent<AddPublishConfigEvent>(OnAddPublishConfig);
         }
 
-        /// <summary>
-        /// 发布配置添加成功事件处理方法
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <exception cref="Exception"></exception>
-        private void OnAddPublishConfigOK(string message)
+
+        private void OnAddPublishConfig(AddPublishConfigEvent _event)
         {
-            MessageBox.Show(message, "添加发布配置成功", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            if( _event == null)
+                return;
+
+            if(_event.IsSuccessed == true)
+            {
+                MessageBox.Show($"[{_event.ConfigName}]配置添加成功", "配置添加成功", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                MessageBox.Show($"[{_event.ConfigName}]配置添加失败", "配置添加失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            MessageBox.Show($"[异常]{_event.Exception?.ToString()}", "出现异常", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
         }
 
-        /// <summary>
-        /// 发布配置添加失败事件处理方法
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <exception cref="Exception"></exception>
-        private void OnAddPublishConfigError(string message)
-        {
-            MessageBox.Show(message, "添加发布配置失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        }
     }
 }
