@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using BlogPublisher.Model;
+using BlogPublisher.Core.Application;
 
 namespace BlogPublisher
 {

@@ -1,5 +1,6 @@
 ﻿using BlogPublisher.Helper;
 using BlogPublisher.Model;
+using BlogPublisher.Core.Application;
 using BlogPublisher.Common;
 using Microsoft.SqlServer.Server;
 using System;

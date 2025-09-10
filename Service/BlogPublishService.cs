@@ -1,6 +1,7 @@
 ﻿using BlogPublisher.Common;
 using BlogPublisher.Helper;
 using BlogPublisher.Model;
+using BlogPublisher.Core.Application;
 using System;
 using System.Collections.Generic;
 using System.Linq;

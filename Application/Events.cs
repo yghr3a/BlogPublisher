@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlogPublisher.Model
+namespace BlogPublisher.Core.Application
 {
     public interface IEvent
     {
