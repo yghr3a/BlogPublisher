@@ -31,7 +31,7 @@ namespace BlogPublisher.Service
         }
 
         // 发布博客
-        public async Task<string> PublishPostAsync(WordPressPublishConfig config)
+        public async Task<string> PublishBlogAsync(WordPressPublishConfig config)
         {
             var siteUrl = config.Url;
             var username = config.UserName;

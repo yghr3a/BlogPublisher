@@ -106,7 +106,7 @@ namespace BlogPublisher.Service
         private async Task<string> WordPressPublish(string publishConfigName)
         {
             var config = _publishConfigService.Load<WordPressPublishConfig>(publishConfigName);
-            var res = await _wordPressPublisher.PublishPostAsync(config);
+            var res = await _wordPressPublisher.PublishBlogAsync(config);
             return res;
         }
         private async Task<string> CNBlogPublish()
