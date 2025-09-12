@@ -8,7 +8,7 @@ namespace BlogPublisher.CustomException
 {
     public class JsonHelperException : Exception
     {
-        public JsonHelperException(string message) : base(message) { }
+        public JsonHelperException(string message) : base(message) { 
         public JsonHelperException(string message, Exception innerException) : base(message, innerException) { }
     }
 
