@@ -12,19 +12,21 @@ namespace BlogPublisher.Service
 {
     /// <summary>
     /// 对于BlogInfo的初始话与清理还需要多多考虑一下, 现在靠的是LoadConfigAndBlog方法来直接覆盖
+    /// [2025/9/15] 关于该类的状态设计，目前该类需要整理博客信息以及发布配置信息，所以选择保留相关的字段
     /// </summary>
     public class BlogPublishService
     {
-        private PublishConfigService _publishConfigService = new PublishConfigService();
+        /// <summary>
+        /// [2025/9/15] 这些服务后续改成构造函数依赖注入的方式
+        /// </summary>
+        private PublishConfigService _publishConfigService = ServiceManager.GetService<PublishConfigService>();
+        private PublisherStrategyFactory _publisherStrategyFactory = ServiceManager.GetService<PublisherStrategyFactory>();
+
         private List<PublishConfigTypeAndName> _selectedconfigs = new List<PublishConfigTypeAndName>();
-
-        private WordPressPublisher _wordPressPublisher = new WordPressPublisher();
-        private CNBlogPublishConfig _cnBlogPublishConfig = new CNBlogPublishConfig();
-
         private BlogInfo _blogInfo = new BlogInfo();
 
         /// <summary>
-        /// 加载发布配置与博客内容, 会将散乱的博客信息整理成BlogInfo类型并加载到所有发布器对象中
+        /// 加载发布配置与博客内容, 会将散乱的博客信息整理成BlogInfo类型
         /// 存储发布配置的名字与类型作为成员变量
         /// </summary>
         /// <param name="configsTypeAndNames"></param>
@@ -44,8 +46,6 @@ namespace BlogPublisher.Service
             _blogInfo.isDraft = isDraft;
             _blogInfo.categories = categories;
 
-            _wordPressPublisher.LoadBlogInfo(_blogInfo);
-            // cn的加载还没写
         }
 
         /// <summary>
@@ -75,23 +75,17 @@ namespace BlogPublisher.Service
                 });
                 return;
             }
-                
 
-            foreach (var configs in _selectedconfigs)
+            // 发布博客异步方法列表， 用于后面的并发操作
+            var tasks = _selectedconfigs.Select(configs =>
             {
-                if (configs.PublishConfigType == PublishConfigTypeHelper.wordPressPublishConfigType)
-                {
-                    res.Add(await WordPressPublish(configs.PublishConfigName));
-                }
-                else if (configs.PublishConfigType == PublishConfigTypeHelper.cnBlogPublishConfigType)
-                {
-                    res.Add(await CNBlogPublish());
-                }
-                else
-                {
-                    throw new Exception("不支持的发布类型");
-                }
-            }
+                // 利用发布策略工厂根据发布配置的获取对应的发布策略
+                var publishStrategy = _publisherStrategyFactory.GetPublishStrategy(configs.PublishConfigType);
+                return publishStrategy.PublishBlogAsync(_blogInfo, configs);
+            });
+
+            // 并发操作执行博客任务, 并将结果信息加入res
+            res.AddRange(await Task.WhenAll(tasks));
 
             // 能到这一步说明发布博客很顺利, 发个"PublishBlog"事件报告一下
             EventBus.PublishEvent(new PublishBlogEvent
@@ -103,15 +97,5 @@ namespace BlogPublisher.Service
             });
         }
 
-        private async Task<string> WordPressPublish(string publishConfigName)
-        {
-            var config = _publishConfigService.Load<WordPressPublishConfig>(publishConfigName);
-            var res = await _wordPressPublisher.PublishBlogAsync(config);
-            return res;
-        }
-        private async Task<string> CNBlogPublish()
-        {
-            return "";
-        }
     }
 }

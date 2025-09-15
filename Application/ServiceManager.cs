@@ -24,12 +24,24 @@ namespace BlogPublisher.Core.Application
             // 注册各种服务
             Services.AddSingleton<BlogPublishService>();
             Services.AddSingleton<PublishConfigService>();
-            // 注册其他服务
-            //
+            Services.AddSingleton<PublisherStrategyFactory>();
+
+            // 注册发布策略
+            Services.AddSingleton<WordPressPublishStrategy>();
+            Services.AddSingleton<CNBlogPublishStrategy>();
+
+            // 注册发布器
+            Services.AddSingleton<WordPressPublisher>();
+            Services.AddSingleton<CNBlogPublisher>();
 
             ServiceProvider = Services.BuildServiceProvider();
         }
 
+        /// <summary>
+        /// [2025/9/15] 获取所需服务方法,后续会实现通过构造方法来实现依赖注入以替换这个方法
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
         internal static T GetService<T>()
         {
             return ServiceProvider.GetService<T>();

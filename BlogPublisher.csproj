@@ -145,12 +145,8 @@
     <Compile Include="Common\PublishConfigPathHelper.cs" />
     <Compile Include="Common\PublishConfigTypeHelper.cs" />
     <Compile Include="CustomException\CustomExceptions.cs" />
-    <Compile Include="DebugAndTest\CNBlogPublishStrategy.cs" />
     <Compile Include="DebugAndTest\ExamplePublishBlog.cs" />
     <Compile Include="DebugAndTest\IPublisher.cs" />
-    <Compile Include="DebugAndTest\IPublishStrategy.cs" />
-    <Compile Include="DebugAndTest\PublisherStrategyFactory.cs" />
-    <Compile Include="DebugAndTest\WordPressPublishStrategy.cs" />
     <Compile Include="DebugForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -179,8 +175,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\BlogPublishService.cs" />
     <Compile Include="Service\CNBlogPublisher.cs" />
+    <Compile Include="Service\CNBlogPublishStrategy.cs" />
+    <Compile Include="Service\IPublishStrategy.cs" />
     <Compile Include="Service\PublishConfigService.cs" />
+    <Compile Include="Service\PublisherStrategyFactory.cs" />
     <Compile Include="Service\WordPressPublisher.cs" />
+    <Compile Include="Service\WordPressPublishStrategy.cs" />
     <EmbeddedResource Include="AddPublishConfigForm.resx">
       <DependentUpon>AddPublishConfigForm.cs</DependentUpon>
     </EmbeddedResource>

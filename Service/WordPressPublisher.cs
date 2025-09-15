@@ -18,21 +18,22 @@ namespace BlogPublisher.Service
         /// <summary>
         /// 博客信息, 因为用户的一次确认发布根据多个发布配置发布, 但只发布一篇博客
         /// 所以先缓存博客信息作为成员变量, 然后每次发布时使用即可, 能有效减少参数传递
+        /// [2025/9/15] 放弃使用上面的思路，改为每次发布时传递博客信息
+        /// 1. 可以是这个类从带状态的类变为无状态的类，更加符合单一职责原则，也更容易维护
+        /// 2. 避免了多线程环境下的状态冲突问题
+        /// 后续会将WordPressPublisher与其他的发布者类订阅成Single模式，减少内存占用与资源浪费
+        /// 同时并不会影响批量并发发布博客（并发的是异步方法并非对对象）
         /// </summary>
         private BlogInfo _blogInfo;
         private string title => _blogInfo.title;
         private string content => _blogInfo.blogContent;
         private bool isDraft => _blogInfo.isDraft;
 
-        // 加载博客信息
-        public void LoadBlogInfo(BlogInfo blogInfo)
+        // 发布博客
+        public async Task<string> PublishBlogAsync(BlogInfo blogInfo, WordPressPublishConfig config)
         {
             _blogInfo = blogInfo;
-        }
 
-        // 发布博客
-        public async Task<string> PublishBlogAsync(WordPressPublishConfig config)
-        {
             var siteUrl = config.Url;
             var username = config.UserName;
             var appPassword = config.Password;

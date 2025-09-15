@@ -14,15 +14,15 @@ namespace BlogPublisher.DebugAndTest
     /// </summary>
     internal class ExamplePublishBlog
     {
-        private PublisherStrategyFactory _publishStrategyFactory = ServiceManager.GetService<PublisherStrategyFactory>();
-        public async Task Test(BlogInfo blogInfo, List<IPublishConfig> publishConfigs)
-        {
-            var Tasks = publishConfigs.Select(config =>
-            {
-                var strategy = _publishStrategyFactory.GetPublishStrategy(config);
-                return strategy.PublishBlogAsync(blogInfo, config);
-            });
-            await Task.WhenAll(Tasks);
-        }
+        //private PublisherStrategyFactory _publishStrategyFactory = ServiceManager.GetService<PublisherStrategyFactory>();
+        //public async Task Test(BlogInfo blogInfo, List<IPublishConfig> publishConfigs)
+        //{
+        //    var Tasks = publishConfigs.Select(config =>
+        //    {
+        //        var strategy = _publishStrategyFactory.GetPublishStrategy(config);
+        //        return strategy.PublishBlogAsync(blogInfo, config);
+        //    });
+        //    await Task.WhenAll(Tasks);
+        //}
     }
 }
