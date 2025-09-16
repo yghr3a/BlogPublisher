@@ -138,6 +138,7 @@
     <Compile Include="AddPublishConfigForm.Designer.cs">
       <DependentUpon>AddPublishConfigForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Application\ApplicationService.cs" />
     <Compile Include="Application\CoreInitializer.cs" />
     <Compile Include="Application\EventBus.cs" />
     <Compile Include="Application\Events.cs" />
@@ -170,6 +171,7 @@
     <Compile Include="Model\GitHUbPublishConfig.cs" />
     <Compile Include="Model\Post.cs" />
     <Compile Include="Model\PublishConfigTypeAndName.cs" />
+    <Compile Include="Model\PublishResult.cs" />
     <Compile Include="Model\WordPressPublishConfig.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

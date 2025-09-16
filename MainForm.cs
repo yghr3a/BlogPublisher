@@ -81,6 +81,8 @@ namespace BlogPublisher
             EventBus.SubscribeEvent<PublishBlogEvent>(OnPublishBlog);
             // 订阅添加发布配置事件
             EventBus.SubscribeEvent<AddPublishConfigEvent>(OnAddPublishConfig);
+            // 订阅加载发布配置事件
+            EventBus.SubscribeEvent<LoadPublishConfigEvent>(OnLoadPublishConfig);
 
         }
 
@@ -134,6 +136,12 @@ namespace BlogPublisher
         {
             // 直接调用自带的发布配置加载方法就OK了
             LoadPublishConfig();
+        }
+
+
+        private void OnLoadPublishConfig(LoadPublishConfigEvent _event)
+        {
+
         }
     }
 }
