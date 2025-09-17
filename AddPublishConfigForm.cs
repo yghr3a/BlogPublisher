@@ -72,7 +72,7 @@ namespace BlogPublisher
 
                 _publishConfig.Add<CNBlogPublishConfig>(config);
             }
-            else 
+            else
             {
                 MessageBox.Show("未实装!");
             }
@@ -83,11 +83,11 @@ namespace BlogPublisher
         /// </summary>
         private void InitSubcribeEvent()
         {
-            EventBus.SubscribeEvent<AddPublishConfigEvent>(OnAddPublishConfig);
+            EventBus.SubscribeEvent<AddPublishConfigFinishedEvent>(OnAddPublishConfig);
         }
 
 
-        private void OnAddPublishConfig(AddPublishConfigEvent _event)
+        private void OnAddPublishConfig(AddPublishConfigFinishedEvent _event)
         {
             if( _event == null)
                 return;
@@ -99,10 +99,11 @@ namespace BlogPublisher
             else
             {
                 MessageBox.Show($"[{_event.ConfigName}]配置添加失败", "配置添加失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (_event.Exception != null)
+                {
+                    MessageBox.Show($"异常信息:{_event.Exception.ToString()}", "配置添加失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
-
-            MessageBox.Show($"[异常]{_event.Exception?.ToString()}", "出现异常", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
         }
 
     }

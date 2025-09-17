@@ -80,7 +80,7 @@ namespace BlogPublisher
             // 订阅发布博客事件 
             EventBus.SubscribeEvent<PublishBlogEvent>(OnPublishBlog);
             // 订阅添加发布配置事件
-            EventBus.SubscribeEvent<AddPublishConfigEvent>(OnAddPublishConfig);
+            EventBus.SubscribeEvent<AddPublishConfigFinishedEvent>(OnAddPublishConfig);
             // 订阅加载发布配置事件
             EventBus.SubscribeEvent<LoadPublishConfigEvent>(OnLoadPublishConfig);
 
@@ -132,7 +132,7 @@ namespace BlogPublisher
         /// 当发布配置添加成功时, 主窗口这里也需要重新加载配置框得内容
         /// </summary>
         /// <param name="obj"></param>
-        private void OnAddPublishConfig(AddPublishConfigEvent _event)
+        private void OnAddPublishConfig(AddPublishConfigFinishedEvent _event)
         {
             // 直接调用自带的发布配置加载方法就OK了
             LoadPublishConfig();

@@ -43,7 +43,7 @@ namespace BlogPublisher.Service
                 FileHelper.WriteInto(filePath, configInfo);
 
                 string mes = $"[{config.ConfigName}]:配置添加成功";
-                EventBus.PublishEvent(new AddPublishConfigEvent()
+                EventBus.PublishEvent(new AddPublishConfigFinishedEvent()
                 {
                     ConfigName = config.ConfigName,
                     ConfigType = null, //  这个字段暂时用不上
@@ -52,7 +52,7 @@ namespace BlogPublisher.Service
             }
             catch(FileHelperException ex)
             {
-                EventBus.PublishEvent(new AddPublishConfigEvent()
+                EventBus.PublishEvent(new AddPublishConfigFinishedEvent()
                 {
                     IsSuccessed = false,
                     Exception = ex
@@ -60,7 +60,7 @@ namespace BlogPublisher.Service
             }
             catch(Exception ex)
             {
-                EventBus.PublishEvent(new AddPublishConfigEvent()
+                EventBus.PublishEvent(new AddPublishConfigFinishedEvent()
                 {
                     IsSuccessed = false,
                     Exception = ex

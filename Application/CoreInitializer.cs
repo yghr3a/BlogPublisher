@@ -21,8 +21,11 @@ namespace BlogPublisher.Core.Application
             // 初始化ServiceManager
             ServiceManager.InitSeviceManager();
 
-            // 订阅各个窗口初始化事件
+            // 初始化ApplicationService
+            // [2025/9/17] 需要重新考虑是由ServiceManager来初始化, 还是由CoreInitializer来初始化
+            ApplicationService.InitApplicationService();
 
+            // 订阅各个窗口初始化事件
             isInit = true;
         }
     }

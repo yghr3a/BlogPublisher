@@ -22,7 +22,17 @@ namespace BlogPublisher.Core.Application
     {
         public string ConfigName { get; set; }
         public string ConfigType { get; set; }
+        public bool IsSuccessed { get; set; }
+        public Exception Exception { get; set; }
+    }
 
+    /// <summary>
+    /// 添加发布配置完成事件
+    /// </summary>
+    public class AddPublishConfigFinishedEvent : IEvent
+    {
+        public string ConfigName { get; set; }
+        public string ConfigType { get; set; }
         public bool IsSuccessed { get; set; }
         public Exception Exception { get; set; }
     }
