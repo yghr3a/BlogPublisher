@@ -67,7 +67,7 @@ namespace BlogPublisher.Service
             // 如果res以及有元素了, 说明出问题了, 发个"PublishBlogError"事件就return了
             if (res.Count > 0)
             {
-                EventBus.PublishEvent(new PublishBlogEvent()
+                EventBus.PublishEvent(new PublishBlogResponseEvent()
                 {
                     configInfoAndIsSuccessed = null,
                     IsSuccessed = false,
@@ -88,7 +88,7 @@ namespace BlogPublisher.Service
             res.AddRange(await Task.WhenAll(tasks));
 
             // 能到这一步说明发布博客很顺利, 发个"PublishBlog"事件报告一下
-            EventBus.PublishEvent(new PublishBlogEvent
+            EventBus.PublishEvent(new PublishBlogResponseEvent
             {
                 configInfoAndIsSuccessed = null,
                 Messages = res,

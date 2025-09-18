@@ -78,12 +78,11 @@ namespace BlogPublisher
         private void InitSubcribeEvent()
         {
             // 订阅发布博客事件 
-            EventBus.SubscribeEvent<PublishBlogEvent>(OnPublishBlog);
+            EventBus.SubscribeEvent<PublishBlogResponseEvent>(OnPublishBlog);
             // 订阅添加发布配置事件
-            EventBus.SubscribeEvent<AddPublishConfigFinishedEvent>(OnAddPublishConfig);
-            // 订阅加载发布配置事件
-            EventBus.SubscribeEvent<LoadPublishConfigEvent>(OnLoadPublishConfig);
-
+            EventBus.SubscribeEvent<AddPublishConfigResponseEvent>(OnAddPublishConfig);
+            // 订阅加载发布配置响应事件
+            EventBus.SubscribeEvent<LoadPublishConfigResponseEvent>(OnLoadPublishConfig);
         }
 
         /// <summary>
@@ -97,7 +96,7 @@ namespace BlogPublisher
             form.Show();
         }
 
-        private void OnPublishBlog(PublishBlogEvent _event)
+        private void OnPublishBlog(PublishBlogResponseEvent _event)
         {         
             if(_event.IsSuccessed == true)
             {
@@ -132,14 +131,14 @@ namespace BlogPublisher
         /// 当发布配置添加成功时, 主窗口这里也需要重新加载配置框得内容
         /// </summary>
         /// <param name="obj"></param>
-        private void OnAddPublishConfig(AddPublishConfigFinishedEvent _event)
+        private void OnAddPublishConfig(AddPublishConfigResponseEvent _event)
         {
             // 直接调用自带的发布配置加载方法就OK了
             LoadPublishConfig();
         }
 
 
-        private void OnLoadPublishConfig(LoadPublishConfigEvent _event)
+        private void OnLoadPublishConfig(LoadPublishConfigResponseEvent _event)
         {
            
         }

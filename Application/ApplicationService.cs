@@ -38,8 +38,8 @@ namespace BlogPublisher.Core.Application
         private void InitSubscribeEvent()
         {
             // 订阅事件时需要指定具体的发布配置类型
-            EventBus.SubscribeEvent<AddPublishConfigEvent<WordPressPublishConfig>>(OnAddPublishConfig);
-            EventBus.SubscribeEvent<AddPublishConfigEvent<CNBlogPublishConfig>>(OnAddPublishConfig);
+            EventBus.SubscribeEvent<AddPublishConfigRequestEvent<WordPressPublishConfig>>(OnAddPublishConfig);
+            EventBus.SubscribeEvent<AddPublishConfigRequestEvent<CNBlogPublishConfig>>(OnAddPublishConfig);
         }
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace BlogPublisher.Core.Application
         /// </summary>
         /// <typeparam name="TPublishConfig"></typeparam>
         /// <param name="_event"></param>
-        private void OnAddPublishConfig<TPublishConfig>(AddPublishConfigEvent<TPublishConfig> _event) where TPublishConfig : class, IPublishConfig, new()
+        private void OnAddPublishConfig<TPublishConfig>(AddPublishConfigRequestEvent<TPublishConfig> _event) where TPublishConfig : class, IPublishConfig, new()
         {
             // [2025/9/17] 目前还未解决如何通过构造函数注入服务实例的问题, 暂时通过ServiceManager来获取服务实例
             var _publishConfigService = ServiceManager.GetService<PublishConfigService>();
@@ -59,7 +59,7 @@ namespace BlogPublisher.Core.Application
                 _publishConfigService.Add<TPublishConfig>(_event.PublishConfig);
 
                 // 添加完成后发布添加完成事件
-                EventBus.PublishEvent(new AddPublishConfigFinishedEvent()
+                EventBus.PublishEvent(new AddPublishConfigResponseEvent()
                 {
                     ConfigName = _event.PublishConfig.ConfigName,
                     ConfigType = null, //  这个字段暂时用不上
@@ -69,7 +69,7 @@ namespace BlogPublisher.Core.Application
             // 出现异常时发布添加完成事件, 并传递异常信息
             catch (FileHelperException ex)
             {
-                EventBus.PublishEvent(new AddPublishConfigFinishedEvent()
+                EventBus.PublishEvent(new AddPublishConfigResponseEvent()
                 {
                     IsSuccessed = false,
                     Exception = ex
@@ -77,7 +77,7 @@ namespace BlogPublisher.Core.Application
             }
             catch(Exception ex)
             {
-                EventBus.PublishEvent(new AddPublishConfigFinishedEvent()
+                EventBus.PublishEvent(new AddPublishConfigResponseEvent()
                 {
                     IsSuccessed = false,
                     Exception = ex

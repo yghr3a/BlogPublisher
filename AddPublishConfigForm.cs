@@ -57,7 +57,7 @@ namespace BlogPublisher
                     Password = WPPasswordTextBox.Text
                 };
 
-                EventBus.PublishEvent(new AddPublishConfigEvent<WordPressPublishConfig>
+                EventBus.PublishEvent(new AddPublishConfigRequestEvent<WordPressPublishConfig>
                 {
                     PublishConfig = config,
                     IsSuccessed = true
@@ -73,7 +73,7 @@ namespace BlogPublisher
                     Password = BKPasswordTextBox.Text
                 };
 
-                EventBus.PublishEvent(new AddPublishConfigEvent<CNBlogPublishConfig>
+                EventBus.PublishEvent(new AddPublishConfigRequestEvent<CNBlogPublishConfig>
                 { 
                     PublishConfig = config,
                     IsSuccessed = true 
@@ -90,11 +90,11 @@ namespace BlogPublisher
         /// </summary>
         private void InitSubcribeEvent()
         {
-            EventBus.SubscribeEvent<AddPublishConfigFinishedEvent>(OnAddPublishConfig);
+            EventBus.SubscribeEvent<AddPublishConfigResponseEvent>(OnAddPublishConfig);
         }
 
 
-        private void OnAddPublishConfig(AddPublishConfigFinishedEvent _event)
+        private void OnAddPublishConfig(AddPublishConfigResponseEvent _event)
         {
             if( _event == null)
                 return;
