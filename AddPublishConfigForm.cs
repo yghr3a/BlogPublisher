@@ -16,8 +16,6 @@ namespace BlogPublisher
     public partial class AddPublishConfigForm : Form
     {
 
-        PublishConfigService _publishConfig = new PublishConfigService();
-
         public AddPublishConfigForm()
         {
             // 初始化配件操作
@@ -42,6 +40,7 @@ namespace BlogPublisher
 
         /// <summary>
         /// 当确认添加配置按钮被点击时
+        /// [2025/9/18] 重构, 通过发布事件的方式将添加配置的请求传递到Core应用层
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -58,7 +57,11 @@ namespace BlogPublisher
                     Password = WPPasswordTextBox.Text
                 };
 
-                _publishConfig.Add<WordPressPublishConfig>(config);
+                EventBus.PublishEvent(new AddPublishConfigEvent<WordPressPublishConfig>
+                {
+                    PublishConfig = config,
+                    IsSuccessed = true
+                });
             }
             else if(selected == "博客园发布配置")
             {
@@ -70,7 +73,11 @@ namespace BlogPublisher
                     Password = BKPasswordTextBox.Text
                 };
 
-                _publishConfig.Add<CNBlogPublishConfig>(config);
+                EventBus.PublishEvent(new AddPublishConfigEvent<CNBlogPublishConfig>
+                { 
+                    PublishConfig = config,
+                    IsSuccessed = true 
+                });
             }
             else
             {

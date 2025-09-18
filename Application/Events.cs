@@ -1,4 +1,5 @@
 ﻿using BlogPublisher.Common;
+using BlogPublisher.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,11 +18,11 @@ namespace BlogPublisher.Core.Application
 
     /// <summary>
     /// 添加发布配置事件
+    /// [2025/9/18] 使用泛型事件来传递具体的发布配置对象,便于传递类型参数
     /// </summary>
-    public class AddPublishConfigEvent : IEvent
+    public class AddPublishConfigEvent<T> : IEvent where T : class, IPublishConfig, new()
     {
-        public string ConfigName { get; set; }
-        public string ConfigType { get; set; }
+        public T PublishConfig { get; set; }
         public bool IsSuccessed { get; set; }
         public Exception Exception { get; set; }
     }

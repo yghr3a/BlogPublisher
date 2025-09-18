@@ -21,6 +21,9 @@ namespace BlogPublisher.Core.Application
         {
             Services = new ServiceCollection();
 
+            // 注册应用服务
+            Services.AddSingleton<ApplicationService>();
+
             // 注册各种服务
             Services.AddSingleton<BlogPublishService>();
             Services.AddSingleton<PublishConfigService>();

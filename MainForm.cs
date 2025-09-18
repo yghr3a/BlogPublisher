@@ -141,7 +141,7 @@ namespace BlogPublisher
 
         private void OnLoadPublishConfig(LoadPublishConfigEvent _event)
         {
-
+           
         }
     }
 }

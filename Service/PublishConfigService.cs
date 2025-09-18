@@ -24,48 +24,22 @@ namespace BlogPublisher.Service
 
         /// <summary>
         /// 添加配置文件
+        /// [2025/9/18] 重构, 发布事件与异常处理上移到应用层, 这里不再处理事件发布
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="config"></param>
         public void Add<T>(T config) where T : class, IPublishConfig, new()
         {
-            try
-            {
-                var configInfo = JsonHelper.Serialize(config);
-                var configType = typeof(T);
-                var path = _type2path[configType];
+            var configInfo = JsonHelper.Serialize(config);
+            var configType = typeof(T);
+            var path = _type2path[configType];
 
-                if (FileHelper.IsFolderExist(path) == false)
-                    FileHelper.CreateFolder(path);
+            if (FileHelper.IsFolderExist(path) == false)
+                FileHelper.CreateFolder(path);
 
-                var filePath = FileHelper.CreateFile(path, config.ConfigName, "txt");
+            var filePath = FileHelper.CreateFile(path, config.ConfigName, "txt");
 
-                FileHelper.WriteInto(filePath, configInfo);
-
-                string mes = $"[{config.ConfigName}]:配置添加成功";
-                EventBus.PublishEvent(new AddPublishConfigFinishedEvent()
-                {
-                    ConfigName = config.ConfigName,
-                    ConfigType = null, //  这个字段暂时用不上
-                    IsSuccessed = true,
-                });
-            }
-            catch(FileHelperException ex)
-            {
-                EventBus.PublishEvent(new AddPublishConfigFinishedEvent()
-                {
-                    IsSuccessed = false,
-                    Exception = ex
-                });
-            }
-            catch(Exception ex)
-            {
-                EventBus.PublishEvent(new AddPublishConfigFinishedEvent()
-                {
-                    IsSuccessed = false,
-                    Exception = ex
-                });
-            }
+            FileHelper.WriteInto(filePath, configInfo);
         }
 
         /// <summary>
