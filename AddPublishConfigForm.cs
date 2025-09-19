@@ -60,7 +60,6 @@ namespace BlogPublisher
                 EventBus.PublishEvent(new AddPublishConfigRequestEvent<WordPressPublishConfig>
                 {
                     PublishConfig = config,
-                    IsSuccessed = true
                 });
             }
             else if(selected == "博客园发布配置")
@@ -75,8 +74,7 @@ namespace BlogPublisher
 
                 EventBus.PublishEvent(new AddPublishConfigRequestEvent<CNBlogPublishConfig>
                 { 
-                    PublishConfig = config,
-                    IsSuccessed = true 
+                    PublishConfig = config
                 });
             }
             else
