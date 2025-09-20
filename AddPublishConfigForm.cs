@@ -15,7 +15,6 @@ namespace BlogPublisher
 {
     public partial class AddPublishConfigForm : Form
     {
-
         public AddPublishConfigForm()
         {
             // 初始化配件操作

@@ -64,9 +64,11 @@ namespace BlogPublisher.Core.Application
     public class PublishBlogResponseEvent : IResponseEvent
     {
         // 一个配置文件信息(配置名与配置类型)对应一个布尔值，表示发布是否成功
-        public List<KeyValuePair<KeyValuePair<string, string>, bool>> configInfoAndIsSuccessed { get; set; }
+        // [2025/9/20] 改为使用PublishResult类来传递更丰富的发布结果信息
+        public List<PublishResult> publishResults { get; set; }
         // 目前使用的消息传递属性
-        public List<string> Messages { get; set; }
+        // [2025/9/20] 职责改为失败原因信息
+        public List<string> FailReasons { get; set; }
         public bool IsSuccessed { get; set; }
         public Exception Exception { get; set; }
     }

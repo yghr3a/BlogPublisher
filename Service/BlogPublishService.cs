@@ -45,33 +45,34 @@ namespace BlogPublisher.Service
             _blogInfo.blogContent = blogContent;
             _blogInfo.isDraft = isDraft;
             _blogInfo.categories = categories;
-
         }
 
         /// <summary>
         /// 发布博客, 会根据发布配置的类型选择对应的发布器类
+        /// [2025/9/20] 重构, 开始使用PublishResult来记录单独发布操作的发布结果
         /// </summary>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
         public async Task PublishBlog()
         {
-            var res = new List<string>();
+            // [2025/9/20] 存储各个发布结果的列表
+            var res = new List<PublishResult>();
+            // [2025/9/20] 记录发布失败的原因
+            var failedReason = new List<string>();
 
             if(_selectedconfigs == null || _selectedconfigs.Count == 0)
-                res.Add("没有选择发布配置");
-                
+                failedReason.Add("没有选择发布配置");
 
             if (string.IsNullOrWhiteSpace(_blogInfo.blogContent))
-                res.Add("博客内容为空");
+                failedReason.Add("博客内容为空");
 
-            // 如果res以及有元素了, 说明出问题了, 发个"PublishBlogError"事件就return了
-            if (res.Count > 0)
+            // 如果failedReason有元素了, 说明出问题了, 发个"PublishBlogError"事件就return了
+            if (failedReason.Count > 0)
             {
                 EventBus.PublishEvent(new PublishBlogResponseEvent()
                 {
-                    configInfoAndIsSuccessed = null,
                     IsSuccessed = false,
-                    Exception = new Exception(string.Join("\n", res))
+                    FailReasons = failedReason
                 });
                 return;
             }
@@ -90,8 +91,8 @@ namespace BlogPublisher.Service
             // 能到这一步说明发布博客很顺利, 发个"PublishBlog"事件报告一下
             EventBus.PublishEvent(new PublishBlogResponseEvent
             {
-                configInfoAndIsSuccessed = null,
-                Messages = res,
+                publishResults = res,
+                FailReasons = null,
                 IsSuccessed = true,
                 Exception = null
             });

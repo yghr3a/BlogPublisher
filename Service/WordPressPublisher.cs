@@ -30,7 +30,8 @@ namespace BlogPublisher.Service
         private bool isDraft => _blogInfo.isDraft;
 
         // 发布博客
-        public async Task<string> PublishBlogAsync(BlogInfo blogInfo, WordPressPublishConfig config)
+        // [2025/9/20] 重构方法, 改为返回发布结果对象, 包含更多的发布结果信息
+        internal async Task<PublishResult> PublishBlogAsync(BlogInfo blogInfo, WordPressPublishConfig config)
         {
             _blogInfo = blogInfo;
 
@@ -47,10 +48,20 @@ namespace BlogPublisher.Service
             };
 
             if (string.IsNullOrWhiteSpace(username))
-                return $"[{config.ConfigName}]:发布失败！配置用户名为空!";
+                return new PublishResult() 
+                { 
+                    PublishConfigName = config.ConfigName,
+                    IsSuccessed = false,
+                    FailedReason = "配置用户名为空!"
+                };
 
-            if(string.IsNullOrWhiteSpace(appPassword))
-                return $"[{config.ConfigName}]:发布失败！配置密码为空!";
+            if (string.IsNullOrWhiteSpace(appPassword))
+                return new PublishResult()
+                {
+                    PublishConfigName = config.ConfigName,
+                    IsSuccessed = false,
+                    FailedReason = "配置密码为空!"
+                };
 
             // 生成 Basic Auth 头
             var authBytes = Encoding.UTF8.GetBytes($"{username}:{appPassword}");
@@ -69,13 +80,24 @@ namespace BlogPublisher.Service
                 var responseJson = await response.Content.ReadAsStringAsync();
                 using (var doc = JsonDocument.Parse(responseJson))
                 {
-                    return $"[{config.ConfigName}]发布成功！文章ID: {doc.RootElement.GetProperty("id")}";
+                    return new PublishResult()
+                    {
+                        PublishConfigName = config.ConfigName,
+                        IsSuccessed = true,
+                    };
                 }
 
             }
             catch (Exception ex)
             {
-                throw new Exception($"发布失败: {ex.Message}");
+                // 处理异常, 失败时不是直接抛出异常, 而是返回失败与原因结果
+                // [2025/9/20] 这里的异常信息主要是网络请求相关的异常, 业务层面的异常(例如返回的状态码不是200等)在后续可以考虑单独处理, 如果直接抛出异常, 会导致批量发布时中断
+                return new PublishResult()
+                {
+                    PublishConfigName = config.ConfigName,
+                    IsSuccessed = false,
+                    Exception = ex
+                };
             }
         }
 

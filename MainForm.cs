@@ -100,24 +100,24 @@ namespace BlogPublisher
         {         
             if(_event.IsSuccessed == true)
             {
-                var info = "";
+                var successedInfo = "";
+                var failedInfo = "";
                 // Tips : 注释掉的部分是后面才要实现的内容:"服务层只提供每个配置的名字、类型、是否成功、若失败的原因，之后交给UI端拼接内容"
-                //foreach(var item in _event.configInfoAndIsSuccessed)
-                //{
-                //    info += $"[{item.Key.Key}]";
-                //    if(item.Value == true)
-                //        info += "发布成功\n";
-                //    else
-                //        info += "发布失败\n";
-                //}
-                //MessageBox.Show(info, "博客发布成功", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                var successedResult = _event.publishResults.Where(r => r.IsSuccessed == true).ToList();
+                var failedResult = _event.publishResults.Where(r => r.IsSuccessed == false).ToList();
+                var exceptionResult = failedResult.Where(r => r.Exception != null).ToList();
 
-                //  目前为了适配服务端现有的代码，先简单点
-                foreach(var msg in _event.Messages)
-                {
-                    info += $"{msg}\n";
-                }
-                MessageBox.Show(info, "博客发布成功", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                successedResult.ForEach(r =>successedInfo += $"[{r.PublishConfigName}] 发布成功\n");
+                failedResult.ForEach(r => failedInfo += $"[{r.PublishConfigName}] 发布失败, 失败原因: {r.FailedReason}\n");
+
+                // TODO 后面需要更新对各种异常结果的处理操作
+                //foreach(var r in exceptionResult)
+                //{
+
+                //}
+
+                MessageBox.Show(successedInfo, "博客发布成功", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(failedInfo, "博客发布失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {

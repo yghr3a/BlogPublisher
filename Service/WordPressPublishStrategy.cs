@@ -15,7 +15,7 @@ namespace BlogPublisher.Service
         private WordPressPublisher publisher = ServiceManager.GetService<WordPressPublisher>();
         private PublishConfigService publishConfigService = ServiceManager.GetService<PublishConfigService>();
 
-        private async Task<string> PublishBlogAsync(BlogInfo blogInfo, IPublishConfig publishConfig)
+        private async Task<PublishResult> PublishBlogAsync(BlogInfo blogInfo, IPublishConfig publishConfig)
         {
             return await publisher.PublishBlogAsync(blogInfo,(WordPressPublishConfig) publishConfig);
         }
@@ -26,7 +26,7 @@ namespace BlogPublisher.Service
         /// <param name="blogInfo"></param>
         /// <param name="publishConfigTypeAndName"></param>
         /// <returns></returns>
-        public async Task<string> PublishBlogAsync(BlogInfo blogInfo, PublishConfigTypeAndName publishConfigTypeAndName)
+        public async Task<PublishResult> PublishBlogAsync(BlogInfo blogInfo, PublishConfigTypeAndName publishConfigTypeAndName)
         {
             var config = publishConfigService.Load<WordPressPublishConfig>(publishConfigTypeAndName.PublishConfigName);
             return await PublishBlogAsync(blogInfo, config);

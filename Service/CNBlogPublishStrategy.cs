@@ -20,7 +20,7 @@ namespace BlogPublisher.Service
             publisher.testPublishBlog();
         }
 
-        public async Task<string> PublishBlogAsync(BlogInfo blogInfo, PublishConfigTypeAndName publishConfigTypeAndName)
+        public async Task<PublishResult> PublishBlogAsync(BlogInfo blogInfo, PublishConfigTypeAndName publishConfigTypeAndName)
         {
             throw new NotImplementedException();
         }
