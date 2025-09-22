@@ -15,12 +15,12 @@ namespace BlogPublisher.Service
     internal class CNBlogPublishStrategy : IPublishStrategy
     {
         private CNBlogPublisher publisher = ServiceManager.GetService<CNBlogPublisher>();
-        public async Task PublishBlogAsync(BlogInfo blogInfo, IPublishConfig publishConfig)
+        public async Task PublishBlogAsync(BlogInformation blogInformation, IPublishConfig publishConfig)
         {
             publisher.testPublishBlog();
         }
 
-        public async Task<PublishResult> PublishBlogAsync(BlogInfo blogInfo, PublishConfigIdentity publishConfigTypeAndName)
+        public async Task<PublishResult> PublishBlogAsync(BlogInformation blogInformation, PublishConfigIdentity publishConfigTypeAndName)
         {
             throw new NotImplementedException();
         }

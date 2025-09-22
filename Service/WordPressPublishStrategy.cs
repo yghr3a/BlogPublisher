@@ -15,10 +15,11 @@ namespace BlogPublisher.Service
         private WordPressPublisher publisher = ServiceManager.GetService<WordPressPublisher>();
         private PublishConfigService publishConfigService = ServiceManager.GetService<PublishConfigService>();
 
-        private async Task<PublishResult> PublishBlogAsync(BlogInfo blogInfo, IPublishConfig publishConfig)
+        private async Task<PublishResult> PublishBlogAsync(BlogInformation blogInformation, IPublishConfig publishConfig)
         {
-            return await publisher.PublishBlogAsync(blogInfo,(WordPressPublishConfig) publishConfig);
+            return await publisher.PublishBlogAsync(blogInformation, (WordPressPublishConfig) publishConfig);
         }
+
 
         /// <summary>
         /// 通过发布配置的类型和名称来加载发布配置, 然后发布博客
@@ -26,10 +27,10 @@ namespace BlogPublisher.Service
         /// <param name="blogInfo"></param>
         /// <param name="publishConfigTypeAndName"></param>
         /// <returns></returns>
-        public async Task<PublishResult> PublishBlogAsync(BlogInfo blogInfo, PublishConfigIdentity publishConfigTypeAndName)
+        public async Task<PublishResult> PublishBlogAsync(BlogInformation blogInformation, PublishConfigIdentity publishConfigTypeAndName)
         {
             var config = publishConfigService.Load<WordPressPublishConfig>(publishConfigTypeAndName.PublishConfigName);
-            return await PublishBlogAsync(blogInfo, config);
+            return await PublishBlogAsync(blogInformation, config);
         }
     }
 }

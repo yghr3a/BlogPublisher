@@ -52,8 +52,13 @@ namespace BlogPublisher
                 selectedConfigs.Add(item);
             }
 
-            _blogPublishService.LoadConfigAndBlog(selectedConfigs, FilePathTextBox.Text, BlogTitleTextBox.Text);
-            await _blogPublishService.PublishBlog();
+            var blog = new BlogInformation()
+            {
+                BlogFilePath = FilePathTextBox.Text,
+                Title = BlogTitleTextBox.Text
+            };
+
+            await _blogPublishService.PublishBlog(selectedConfigs, blog);
         }
 
         /// <summary>
