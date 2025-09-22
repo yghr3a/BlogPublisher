@@ -115,9 +115,12 @@ namespace BlogPublisher
                 //{
 
                 //}
+                // 有对应的发布结果才弹窗
+                if (successedResult.Count != 0)
+                    MessageBox.Show(successedInfo, "博客发布成功", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                MessageBox.Show(successedInfo, "博客发布成功", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                MessageBox.Show(failedInfo, "博客发布失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if(failedResult.Count != 0)
+                    MessageBox.Show(failedInfo, "博客发布失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {
