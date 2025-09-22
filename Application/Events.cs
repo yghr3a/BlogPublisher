@@ -51,11 +51,14 @@ namespace BlogPublisher.Core.Application
 
     /// <summary>
     /// 发布博客请求事件
+    /// [2025/9/22] 重构，使用BlogInformation类来传递博客信息，使用List<PublishConfigIdentity>来传递发布配置的名字与类型
     /// </summary>
     public class PublishBlogRequestEvent : IRequestEvent
     {
         // 需要发布的配置文件信息(配置名与配置类型)
-        public List<KeyValuePair<string, ConfigType>> ConfigNameAndType { get; set; }
+        public List<PublishConfigIdentity> ConfigNameAndType { get; set; }
+        // 需要发布的博客信息
+        public BlogInformation BlogInformation { get; set; }
     }
 
     /// <summary>

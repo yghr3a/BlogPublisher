@@ -17,6 +17,7 @@ namespace BlogPublisher.Service
 {
     public class PublishConfigService
     {
+        // 类型到路径的映射
         private static Dictionary<Type, string> _type2path = PublishConfigPathHelper.Type2path;
 
         // 配置文件存储的根目录
@@ -60,9 +61,9 @@ namespace BlogPublisher.Service
         /// 加载所有配置文件的类型和名字, 用于界面显示
         /// </summary>
         /// <returns></returns>
-        public List<PublishConfigTypeAndName> LoadPublishConfigTypeAndName()
+        public List<PublishConfigIdentity> LoadPublishConfigTypeAndName()
         {
-            var res = new List<PublishConfigTypeAndName>();
+            var res = new List<PublishConfigIdentity>();
 
             foreach(var typeAndPath in _type2path)
             {
@@ -73,7 +74,7 @@ namespace BlogPublisher.Service
 
                 foreach (var file in files)
                 {
-                    var item = new PublishConfigTypeAndName()
+                    var item = new PublishConfigIdentity()
                     {
                         PublishConfigType = type,
                         PublishConfigName = file

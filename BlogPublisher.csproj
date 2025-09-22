@@ -170,7 +170,7 @@
     <Compile Include="Model\CNBlogPublishConfig.cs" />
     <Compile Include="Model\GitHUbPublishConfig.cs" />
     <Compile Include="Model\Post.cs" />
-    <Compile Include="Model\PublishConfigTypeAndName.cs" />
+    <Compile Include="Model\PublishConfigIdentity.cs" />
     <Compile Include="Model\PublishResult.cs" />
     <Compile Include="Model\WordPressPublishConfig.cs" />
     <Compile Include="Program.cs" />

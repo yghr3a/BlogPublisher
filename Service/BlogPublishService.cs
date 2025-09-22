@@ -22,7 +22,7 @@ namespace BlogPublisher.Service
         private PublishConfigService _publishConfigService = ServiceManager.GetService<PublishConfigService>();
         private PublisherStrategyFactory _publisherStrategyFactory = ServiceManager.GetService<PublisherStrategyFactory>();
 
-        private List<PublishConfigTypeAndName> _selectedconfigs = new List<PublishConfigTypeAndName>();
+        private List<PublishConfigIdentity> _selectedconfigs = new List<PublishConfigIdentity>();
         private BlogInfo _blogInfo = new BlogInfo();
 
         /// <summary>
@@ -32,7 +32,7 @@ namespace BlogPublisher.Service
         /// <param name="configsTypeAndNames"></param>
         /// <param name="blogFilePath"></param>
         /// <param name="blogTitle"></param>
-        public void LoadConfigAndBlog(List<PublishConfigTypeAndName> configsTypeAndNames, string blogFilePath, string blogTitle, string[] categories = null, bool isDraft = false)
+        public void LoadConfigAndBlog(List<PublishConfigIdentity> configsTypeAndNames, string blogFilePath, string blogTitle, string[] categories = null, bool isDraft = false)
         {
             _selectedconfigs = configsTypeAndNames;
 

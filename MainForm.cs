@@ -45,9 +45,9 @@ namespace BlogPublisher
         private async void ConfirmPublishButton_Click(object sender, EventArgs e)
         {
             var checkedItems = PublishConfigCheckedListBox.CheckedItems;
-            var selectedConfigs = new List<PublishConfigTypeAndName>();
+            var selectedConfigs = new List<PublishConfigIdentity>();
 
-            foreach (PublishConfigTypeAndName item in checkedItems)
+            foreach (PublishConfigIdentity item in checkedItems)
             {
                 selectedConfigs.Add(item);
             }

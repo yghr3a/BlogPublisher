@@ -26,7 +26,7 @@ namespace BlogPublisher.Service
         /// <param name="blogInfo"></param>
         /// <param name="publishConfigTypeAndName"></param>
         /// <returns></returns>
-        public async Task<PublishResult> PublishBlogAsync(BlogInfo blogInfo, PublishConfigTypeAndName publishConfigTypeAndName)
+        public async Task<PublishResult> PublishBlogAsync(BlogInfo blogInfo, PublishConfigIdentity publishConfigTypeAndName)
         {
             var config = publishConfigService.Load<WordPressPublishConfig>(publishConfigTypeAndName.PublishConfigName);
             return await PublishBlogAsync(blogInfo, config);
