@@ -23,49 +23,21 @@ namespace BlogPublisher.Service
         private PublishConfigService _publishConfigService = ServiceManager.GetService<PublishConfigService>();
         private PublisherStrategyFactory _publisherStrategyFactory = ServiceManager.GetService<PublisherStrategyFactory>();
 
-        private List<PublishConfigIdentity> _selectedConfigs = new List<PublishConfigIdentity>();
-        private BlogInformation _blogInformation = new BlogInformation();
-
-        /// <summary>
-        /// 加载发布配置与博客内容, 会将散乱的博客信息整理成BlogInfo类型
-        /// 存储发布配置的名字与类型作为成员变量
-        /// [2025/9/22] 该方法弃用，改为直接在PublishBlog方法中传入博客信息
-        /// </summary>
-        /// <param name="configsTypeAndNames"></param>
-        /// <param name="blogFilePath"></param>
-        /// <param name="blogTitle"></param>
-        //public void LoadConfigAndBlog(List<PublishConfigIdentity> configsTypeAndNames, string blogFilePath, string blogTitle, string[] categories = null, bool isDraft = false)
-        //{
-        //    _selectedConfigs = configsTypeAndNames;
-
-        //    var blogContent = FileHelper.GetFileContent(blogFilePath);
-
-        //    if(string.IsNullOrWhiteSpace(blogTitle))
-        //        blogTitle = FileHelper.GetFileNameWithoutExtension(blogFilePath);
-
-        //    _blogInformation.title = blogTitle;
-        //    _blogInformation.blogContent = blogContent;
-        //    _blogInformation.isDraft = isDraft;
-        //    _blogInformation.categories = categories;
-        //}
-
-        /// <summary>
-        /// 发布博客, 会根据发布配置的类型选择对应的发布器类
         /// [2025/9/20] 重构, 开始使用PublishResult来记录单独发布操作的发布结果
-        /// [2025/9/22] 重构，原先使用LoadConfigAndBlog方法来加载博客信息与发布配置比较繁琐，现在改为直接作为参数来传入博客信息
+        /// [2025/9/22] 重构, 原先使用LoadConfigAndBlog方法来加载博客信息与发布配置比较繁琐，现在改为直接作为参数来传入博客信息
+        /// [2025/9/23] 重构, 返回值类型改为Task<PublishAggregateResult>, 便于ApplicationServcie接受返回结果
+        /// <summary>
+        /// 发布博客操作
         /// </summary>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public async Task PublishBlog(List<PublishConfigIdentity> configsTypeAndNames, BlogInformation blogInformation)
+        internal async Task<PublishAggregateResult> PublishBlog(List<PublishConfigIdentity> selectedConfigs, BlogInformation blogInformation)
         {
             // [2025/9/20] 存储各个发布结果的列表
             var res = new List<PublishResult>();
 
             // [2025/9/20] 记录发布失败的原因
             var failedReason = new List<string>();
-
-            // [2025/9/22] 被选中的配置信息
-            _selectedConfigs = configsTypeAndNames;
 
             // [2025/9/22] 获取博客内容, 赋值到blogInformation中
             blogInformation.BlogContent = FileHelper.GetFileContent(blogInformation.BlogFilePath);
@@ -74,42 +46,38 @@ namespace BlogPublisher.Service
             if (string.IsNullOrWhiteSpace(blogInformation.Title))
                 blogInformation.Title = FileHelper.GetFileNameWithoutExtension(blogInformation.BlogFilePath);
 
-            if (_selectedConfigs == null || _selectedConfigs.Count == 0)
+            if (selectedConfigs == null || selectedConfigs.Count == 0)
                 failedReason.Add("没有选择发布配置");
 
-            if (string.IsNullOrWhiteSpace(_blogInformation.BlogContent))
+            if (string.IsNullOrWhiteSpace(blogInformation.BlogContent))
                 failedReason.Add("博客内容为空");
 
-            // 如果failedReason有元素了, 说明出问题了, 发个"PublishBlogError"事件就return了
+            // 如果failedReason有元素了, 说明出问题了
             if (failedReason.Count > 0)
-            {
-                EventBus.PublishEvent(new PublishBlogResponseEvent()
+                return new PublishAggregateResult()
                 {
                     IsSuccessed = false,
-                    FailReasons = failedReason
-                });
-                return;
-            }
+                    FailedReasons = failedReason
+                };
 
             // 发布博客异步方法列表， 用于后面的并发操作
-            var tasks = _selectedConfigs.Select(configs =>
+            var tasks = selectedConfigs.Select(configs =>
             {
                 // 利用发布策略工厂根据发布配置的获取对应的发布策略
                 var publishStrategy = _publisherStrategyFactory.GetPublishStrategy(configs.PublishConfigType);
-                return publishStrategy.PublishBlogAsync(_blogInformation, configs);
+                return publishStrategy.PublishBlogAsync(blogInformation, configs);
             });
 
             // 并发操作执行博客任务, 并将结果信息加入res
             res.AddRange(await Task.WhenAll(tasks));
 
-            // 能到这一步说明发布博客很顺利, 发个"PublishBlog"事件报告一下
-            EventBus.PublishEvent(new PublishBlogResponseEvent
+            // 能到这一步说明发布博客很顺利
+            return new PublishAggregateResult
             {
-                publishResults = res,
-                FailReasons = null,
+                PublishResults = res,
+                FailedReasons = null,
                 IsSuccessed = true,
-                Exception = null
-            });
+            };
         }
 
     }

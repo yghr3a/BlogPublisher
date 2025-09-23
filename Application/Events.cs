@@ -56,7 +56,7 @@ namespace BlogPublisher.Core.Application
     public class PublishBlogRequestEvent : IRequestEvent
     {
         // 需要发布的配置文件信息(配置名与配置类型)
-        public List<PublishConfigIdentity> ConfigNameAndType { get; set; }
+        public List<PublishConfigIdentity> PublishConfigIdentities { get; set; }
         // 需要发布的博客信息
         public BlogInformation BlogInformation { get; set; }
     }

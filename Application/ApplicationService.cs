@@ -27,7 +27,7 @@ namespace BlogPublisher.Core.Application
             if (_isInit == true)
                 return;
 
-            if(_instance == null)
+            if (_instance == null)
                 _instance = ServiceManager.GetService<ApplicationService>();
 
             _instance.InitSubscribeEvent();
@@ -38,8 +38,11 @@ namespace BlogPublisher.Core.Application
         private void InitSubscribeEvent()
         {
             // 订阅事件时需要指定具体的发布配置类型
-            EventBus.SubscribeEvent<AddPublishConfigRequestEvent<WordPressPublishConfig>>(OnAddPublishConfig);
-            EventBus.SubscribeEvent<AddPublishConfigRequestEvent<CNBlogPublishConfig>>(OnAddPublishConfig);
+            EventBus.SubscribeEvent<AddPublishConfigRequestEvent<WordPressPublishConfig>>(OnRequestAddPublishConfig);
+            EventBus.SubscribeEvent<AddPublishConfigRequestEvent<CNBlogPublishConfig>>(OnRequestAddPublishConfig);
+
+            // 订阅博客发布请求事件
+            EventBus.SubscribeEvent<PublishBlogRequestEvent>(OnRequestPublishBlog);
         }
 
         /// <summary>
@@ -48,13 +51,13 @@ namespace BlogPublisher.Core.Application
         /// </summary>
         /// <typeparam name="TPublishConfig"></typeparam>
         /// <param name="_event"></param>
-        private void OnAddPublishConfig<TPublishConfig>(AddPublishConfigRequestEvent<TPublishConfig> _event) where TPublishConfig : class, IPublishConfig, new()
+        private void OnRequestAddPublishConfig<TPublishConfig>(AddPublishConfigRequestEvent<TPublishConfig> _event) where TPublishConfig : class, IPublishConfig, new()
         {
             // [2025/9/17] 目前还未解决如何通过构造函数注入服务实例的问题, 暂时通过ServiceManager来获取服务实例
             var _publishConfigService = ServiceManager.GetService<PublishConfigService>();
 
             try
-            { 
+            {
                 // 利用服务添加发布配置
                 _publishConfigService.Add<TPublishConfig>(_event.PublishConfig);
 
@@ -75,7 +78,7 @@ namespace BlogPublisher.Core.Application
                     Exception = ex
                 });
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 EventBus.PublishEvent(new AddPublishConfigResponseEvent()
                 {
@@ -84,5 +87,35 @@ namespace BlogPublisher.Core.Application
                 });
             }
         }
+
+        /// <summary>
+        /// 博客发布请求事件处理函数
+        /// </summary>
+        /// <param name="_event"></param>
+        private async void OnRequestPublishBlog(PublishBlogRequestEvent _event)
+        {
+            var blogPublishService = ServiceManager.GetService<BlogPublishService>();
+
+            try
+            {
+                var res = await blogPublishService.PublishBlog(_event.PublishConfigIdentities, _event.BlogInformation);
+
+                EventBus.PublishEvent(new PublishBlogResponseEvent()
+                {
+                    publishResults = res.PublishResults,
+                    FailReasons = res.FailedReasons,
+                    IsSuccessed = true
+                });
+            }
+            catch (Exception ex)
+            {
+                EventBus.PublishEvent(new PublishBlogResponseEvent()
+                {
+                    IsSuccessed = false,
+                    Exception = ex
+                });
+            }
+        }
+
     }
 }

@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using BlogPublisher.Model;
 using BlogPublisher.Core.Application;
+using System.Diagnostics;
 
 namespace BlogPublisher
 {
@@ -58,7 +59,12 @@ namespace BlogPublisher
                 Title = BlogTitleTextBox.Text
             };
 
-            await _blogPublishService.PublishBlog(selectedConfigs, blog);
+            // 重构为使用事件总线来发布博客
+            EventBus.PublishEvent(new PublishBlogRequestEvent()
+            {
+                PublishConfigIdentities = selectedConfigs,
+                BlogInformation = blog
+            });
         }
 
         /// <summary>
@@ -129,8 +135,19 @@ namespace BlogPublisher
             }
             else
             {
-                var info = $"[异常]{_event.Exception.ToString()}";
-                MessageBox.Show(info, "博客发布失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (_event.FailReasons.Count != 0)
+                {
+                    var info = "发布失败, 失败原因:\n";
+                    _event.FailReasons.ForEach(r => info += $"[{r}]\n");
+                    MessageBox.Show(info, "博客发布失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
+                if(_event.Exception != null)
+                {
+                    var info = $"[异常]{_event.Exception.ToString()}";
+                    MessageBox.Show(info, "博客发布失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
             }
         }
 
