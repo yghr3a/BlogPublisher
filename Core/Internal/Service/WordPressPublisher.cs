@@ -12,7 +12,7 @@ namespace BlogPublisher.Service
     /// WordPress 博客发布服务, 使用 WordPress REST API
     /// 在后面会考虑将C# HttpClient相关的底层操作交给一个单独的Helper类来处理
     /// </summary>
-    public class WordPressPublisher
+    internal class WordPressPublisher
     {
         /// <summary>
         /// 博客信息, 因为用户的一次确认发布根据多个发布配置发布, 但只发布一篇博客

@@ -138,52 +138,50 @@
     <Compile Include="AddPublishConfigForm.Designer.cs">
       <DependentUpon>AddPublishConfigForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Application\ApplicationService.cs" />
-    <Compile Include="Application\CoreInitializer.cs" />
-    <Compile Include="Application\EventBus.cs" />
-    <Compile Include="Application\Events.cs" />
-    <Compile Include="Application\ServiceManager.cs" />
-    <Compile Include="Common\PublishConfigPathHelper.cs" />
-    <Compile Include="Common\PublishConfigTypeHelper.cs" />
-    <Compile Include="CustomException\CustomExceptions.cs" />
-    <Compile Include="DebugAndTest\ExamplePublishBlog.cs" />
-    <Compile Include="DebugAndTest\IPublisher.cs" />
+    <Compile Include="Core\Application\CoreInitializer.cs" />
+    <Compile Include="Core\Application\EventBus.cs" />
+    <Compile Include="Core\Application\Events.cs" />
+    <Compile Include="Core\Common\ArgeHelper.cs" />
+    <Compile Include="Core\Common\FileHelper.cs" />
+    <Compile Include="Core\Common\JsonHelper.cs" />
+    <Compile Include="Core\Common\MetaWeblogHelper.cs" />
+    <Compile Include="Core\Common\PublishConfigPathHelper.cs" />
+    <Compile Include="Core\Common\PublishConfigTypeHelper.cs" />
+    <Compile Include="Core\CustomException\CustomExceptions.cs" />
+    <Compile Include="Core\Internal\Model\IMetaWeblog.cs" />
+    <Compile Include="Core\Internal\Model\IPublishConfig.cs" />
+    <Compile Include="Core\Internal\Model\Post.cs" />
+    <Compile Include="Core\Internal\Model\PublishAggregateResult.cs" />
+    <Compile Include="Core\Internal\Model\PublishResult.cs" />
+    <Compile Include="Core\Internal\ServiceManager.cs" />
+    <Compile Include="Core\Internal\Service\ApplicationService.cs" />
+    <Compile Include="Core\Internal\Service\BlogPublishService.cs" />
+    <Compile Include="Core\Internal\Service\CNBlogPublisher.cs" />
+    <Compile Include="Core\Internal\Service\CNBlogPublishStrategy.cs" />
+    <Compile Include="Core\Internal\Service\Interface\IPublishStrategy.cs" />
+    <Compile Include="Core\Internal\Service\PublishConfigService.cs" />
+    <Compile Include="Core\Internal\Service\PublisherStrategyFactory.cs" />
+    <Compile Include="Core\Internal\Service\WordPressPublisher.cs" />
+    <Compile Include="Core\Internal\Service\WordPressPublishStrategy.cs" />
+    <Compile Include="Core\Model\BlogInformation.cs" />
+    <Compile Include="Core\Model\CNBlogPublishConfig.cs" />
+    <Compile Include="Core\Model\GitHUbPublishConfig.cs" />
+    <Compile Include="Core\Model\PublishConfigIdentity.cs" />
+    <Compile Include="Core\Model\WordPressPublishConfig.cs" />
     <Compile Include="DebugForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="DebugForm.Designer.cs">
       <DependentUpon>DebugForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Common\ArgeHelper.cs" />
-    <Compile Include="Common\FileHelper.cs" />
-    <Compile Include="Common\JsonHelper.cs" />
-    <Compile Include="Common\MetaWeblogHelper.cs" />
-    <Compile Include="Interface\IMetaWeblog.cs" />
-    <Compile Include="Interface\IPublishConfig.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Model\BlogInfo.cs" />
-    <Compile Include="Model\CNBlogPublishConfig.cs" />
-    <Compile Include="Model\GitHUbPublishConfig.cs" />
-    <Compile Include="Model\Post.cs" />
-    <Compile Include="Model\PublishAggregateResult.cs" />
-    <Compile Include="Model\PublishConfigIdentity.cs" />
-    <Compile Include="Model\PublishResult.cs" />
-    <Compile Include="Model\WordPressPublishConfig.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Service\BlogPublishService.cs" />
-    <Compile Include="Service\CNBlogPublisher.cs" />
-    <Compile Include="Service\CNBlogPublishStrategy.cs" />
-    <Compile Include="Service\IPublishStrategy.cs" />
-    <Compile Include="Service\PublishConfigService.cs" />
-    <Compile Include="Service\PublisherStrategyFactory.cs" />
-    <Compile Include="Service\WordPressPublisher.cs" />
-    <Compile Include="Service\WordPressPublishStrategy.cs" />
     <EmbeddedResource Include="AddPublishConfigForm.resx">
       <DependentUpon>AddPublishConfigForm.cs</DependentUpon>
     </EmbeddedResource>

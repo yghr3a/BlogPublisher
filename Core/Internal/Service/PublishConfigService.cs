@@ -15,7 +15,7 @@ using BlogPublisher.CustomException;
 
 namespace BlogPublisher.Service
 {
-    public class PublishConfigService
+    internal class PublishConfigService
     {
         // 类型到路径的映射
         private static Dictionary<Type, string> _type2path = PublishConfigPathHelper.Type2path;

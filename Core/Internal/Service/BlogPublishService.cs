@@ -15,7 +15,7 @@ namespace BlogPublisher.Service
     /// [2025/9/15] 关于该类的状态设计，目前该类需要整理博客信息以及发布配置信息，所以选择保留相关的字段
     /// [2025/9/22] 弃用了 LoadConfigAndBlog 方法，改为直接在 PublishBlog 方法中传入博客信息
     /// </summary>
-    public class BlogPublishService
+    internal class BlogPublishService
     {
         /// <summary>
         /// [2025/9/15] 这些服务后续改成构造函数依赖注入的方式

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BlogPublisher.Model
 {
-    internal class GitHUbPublishConfig
+    public class GitHUbPublishConfig
     {
 
     }

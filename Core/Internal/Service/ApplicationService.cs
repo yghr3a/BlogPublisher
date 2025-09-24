@@ -12,7 +12,7 @@ namespace BlogPublisher.Core.Application
     /// <summary>
     /// 应用程序服务, 作为Core项目与UI项目交互的桥梁
     /// </summary>
-    public class ApplicationService
+    internal class ApplicationService
     {
         private static ApplicationService _instance;
         // private PublishConfigService _publishConfigService;
